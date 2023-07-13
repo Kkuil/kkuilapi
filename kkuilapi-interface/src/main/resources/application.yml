@@ -1,0 +1,11 @@
+server:
+    port: 3171
+jasypt:
+    encryptor:
+        password: kkuil-api
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/db_kkuil_api
+        username: ENC(kD23HRasvx0l/GeauMQo5/KVy4GTA5VCQVJp2gipPCbOV8h0wTwXEpSnH4249xGv)
+        password: ENC(cz5o9HHM4d+3eARfoZfrzq6NyPnboAPjH5d7gk3ZidFKZxF3NN9iYokgUK5h1fxa)
+
