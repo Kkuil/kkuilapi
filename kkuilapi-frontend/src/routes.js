@@ -3,26 +3,29 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 //
-import BlogPage from './pages/BlogPage';
-import UserPage from './pages/UserPage';
+import InvokeApiInlinePage from './pages/InvokeApiInlinePage';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
-import ProductsPage from './pages/ProductsPage';
-import DashboardAppPage from './pages/DashboardAppPage';
+import InterfacePage from './pages/InterfacePage';
+import DashboardApiPage from './pages/DashboardApiPage';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const routes = useRoutes([
+  return useRoutes([
+    {
+      path: '/',
+      element: <Navigate to="/dashboard/api" />,
+      index: true,
+    },
     {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
-        { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'products', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
+        { element: <Navigate to="/dashboard/api" />, index: true },
+        { path: 'api', element: <DashboardApiPage /> },
+        { path: 'interface', element: <InterfacePage /> },
+        { path: 'invoke-api', element: <InvokeApiInlinePage /> },
       ],
     },
     {
@@ -42,6 +45,4 @@ export default function Router() {
       element: <Navigate to="/404" replace />,
     },
   ]);
-
-  return routes;
 }
