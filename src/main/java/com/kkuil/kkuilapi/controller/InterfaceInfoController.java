@@ -10,6 +10,11 @@ import com.kkuil.kkuilapi.model.po.TbApiInfo;
 import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataVO;
 import com.kkuil.kkuilapi.service.ITbApiInfoService;
 import com.kkuil.kkuilapi.utils.ResultUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Slf4j
+@Tag(name = "接口信息", description = "接口信息CRUD")
 public class InterfaceInfoController {
 
     @Resource
@@ -34,7 +40,7 @@ public class InterfaceInfoController {
      * @Description 获取接口列表信息
      */
     @GetMapping("interface")
-//    @AuthAdmin
+    @Operation(summary = "获取接口列表信息")
     public ResultUtil<ListRes<InterfaceInfoListResDataVO>> listInterfaceInfoWithAdmin(int current, int pageSize, String apiName) {
         InterfaceInfoListParamsDataBO params = new InterfaceInfoListParamsDataBO(apiName);
         ListParams<InterfaceInfoListParamsDataBO> listParams = new ListParams<>(current, pageSize, params);
@@ -47,8 +53,8 @@ public class InterfaceInfoController {
      * @Description 添加接口信息
      */
     @PostMapping("interface")
-//    @AuthAdmin
-    public ResultUtil<Boolean> saveInterfaceInfoWithAdmin(AddInterfaceInfo interfaceInfo) throws ParamsException {
+    @Operation(summary = "添加接口信息")
+    public ResultUtil<Boolean> saveInterfaceInfoWithAdmin(@RequestBody AddInterfaceInfo interfaceInfo) throws ParamsException {
         return tbApiInfoService.saveInterfaceInfoWithAdmin(interfaceInfo);
     }
 
@@ -58,7 +64,10 @@ public class InterfaceInfoController {
      * @Description 删除接口信息
      */
     @DeleteMapping("interface/{id}")
-//    @AuthAdmin
+    @Operation(summary = "删除接口信息")
+    @Parameters({
+            @Parameter(name = "id", description = "接口id", in = ParameterIn.PATH),
+    })
     public ResultUtil<Boolean> deleteInterfaceInfoWithAdmin(@PathVariable int id) throws ParamsException {
         return tbApiInfoService.deleteInterfaceInfoWithAdmin(id);
     }
@@ -69,7 +78,7 @@ public class InterfaceInfoController {
      * @Description 更新接口信息
      */
     @PutMapping("interface")
-//    @AuthAdmin
+    @Operation(summary = "更新接口信息")
     public ResultUtil<Boolean> updateInterfaceInfoWithAdmin(UpdateInterfaceInfo interfaceInfo) throws ParamsException {
         return tbApiInfoService.updateInterfaceInfoWithAdmin(interfaceInfo);
     }
@@ -80,7 +89,10 @@ public class InterfaceInfoController {
      * @Description 获取接口信息
      */
     @GetMapping("interface/{id}")
-//    @AuthAdmin
+    @Operation(summary = "获取接口信息")
+    @Parameters({
+            @Parameter(name = "id", description = "接口id", in = ParameterIn.PATH),
+    })
     public ResultUtil<TbApiInfo> getInterfaceInfoWithAdmin(@PathVariable int id) throws ParamsException {
         return tbApiInfoService.getInterfaceInfoWithAdmin(id);
     }

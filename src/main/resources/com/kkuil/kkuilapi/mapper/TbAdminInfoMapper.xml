@@ -6,8 +6,8 @@
 
     <resultMap id="BaseResultMap" type="com.kkuil.kkuilapi.model.po.TbAdminInfo">
         <id property="id" column="id" jdbcType="OTHER"/>
-        <resultUtil property="account" column="account" jdbcType="CHAR"/>
-        <resultUtil property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="account" column="account" jdbcType="CHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">

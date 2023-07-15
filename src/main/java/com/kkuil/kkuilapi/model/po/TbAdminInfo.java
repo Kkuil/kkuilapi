@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serial;
 import java.io.Serializable;
 
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import lombok.Data;
 
 /**
@@ -23,18 +24,21 @@ public class TbAdminInfo implements Serializable {
      * 管理员ID
      */
     @TableId(value = "id", type = IdType.AUTO)
+    @SchemaProperty(name = "id")
     private Object id;
 
     /**
      * 管理员账号
      */
     @TableField(value = "account")
+    @SchemaProperty(name = "account")
     private String account;
 
     /**
      * 管理员密码
      */
     @TableField(value = "password")
+    @SchemaProperty(name = "password")
     private String password;
 
     @Serial

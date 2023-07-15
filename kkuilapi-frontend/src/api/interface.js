@@ -39,11 +39,8 @@ export function addInterface(data) {
  */
 export function deleteInterface(id) {
   return request({
-    url: '/interface',
-    method: 'DELETE',
-    params: {
-      id,
-    },
+    url: `/interface/${id}`,
+    method: 'DELETE'
   });
 }
 

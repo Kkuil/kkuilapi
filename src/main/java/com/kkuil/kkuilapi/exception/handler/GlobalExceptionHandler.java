@@ -1,7 +1,6 @@
 package com.kkuil.kkuilapi.exception.handler;
 
 import com.kkuil.kkuilapi.exception.thrower.*;
-import org.springframework.expression.AccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

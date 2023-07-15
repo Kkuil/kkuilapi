@@ -1,5 +1,7 @@
 package com.kkuil.kkuilapi.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kkuil.kkuilapi.exception.thrower.ParamsException;
 import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataBO;
@@ -12,6 +14,7 @@ import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataVO;
 import com.kkuil.kkuilapi.service.ITbApiInfoService;
 import com.kkuil.kkuilapi.mapper.TbApiInfoMapper;
 import com.kkuil.kkuilapi.utils.ResultUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,15 +67,20 @@ public class TbApiInfoServiceImpl extends ServiceImpl<TbApiInfoMapper, TbApiInfo
      */
     @Override
     public ResultUtil<Boolean> saveInterfaceInfoWithAdmin(AddInterfaceInfo interfaceInfo) throws ParamsException {
-        TbApiInfo tbApiInfo = new TbApiInfo();
-        tbApiInfo.setApiName(interfaceInfo.getApiName());
-        tbApiInfo.setApiDesc(interfaceInfo.getApiDesc());
-        tbApiInfo.setApiUrl(interfaceInfo.getApiUrl());
-        tbApiInfo.setApiMethod(interfaceInfo.getApiMethod());
-        tbApiInfo.setApiParam(interfaceInfo.getApiParam());
-        tbApiInfo.setApiStatus(interfaceInfo.getApiStatus());
-        tbApiInfo.setApiReqExample(interfaceInfo.getApiReqExample());
-        tbApiInfo.setApiResExample(interfaceInfo.getApiResExample());
+        if (ObjectUtil.isAllEmpty(
+                interfaceInfo.getApiName(),
+                interfaceInfo.getApiDesc(),
+                interfaceInfo.getApiUrl(),
+                interfaceInfo.getApiMethod(),
+                interfaceInfo.getApiParam(),
+                interfaceInfo.getApiStatus(),
+                interfaceInfo.getApiReqExample(),
+                interfaceInfo.getApiResExample()
+        )) {
+            throw new ParamsException("参数不能为空");
+        }
+
+        TbApiInfo tbApiInfo = BeanUtil.copyProperties(interfaceInfo, TbApiInfo.class);
 
         int isInsert = tbApiInfoMapper.insert(tbApiInfo);
         if (isInsert == 1) {
@@ -89,6 +97,9 @@ public class TbApiInfoServiceImpl extends ServiceImpl<TbApiInfoMapper, TbApiInfo
      */
     @Override
     public ResultUtil<Boolean> deleteInterfaceInfoWithAdmin(int id) throws ParamsException {
+        if (StringUtils.isEmpty(String.valueOf(id))) {
+            throw new ParamsException("参数不能为空");
+        }
         int isDelete = tbApiInfoMapper.deleteById(id);
         if (isDelete == 1) {
             return ResultUtil.success(true);
@@ -104,15 +115,20 @@ public class TbApiInfoServiceImpl extends ServiceImpl<TbApiInfoMapper, TbApiInfo
      */
     @Override
     public ResultUtil<Boolean> updateInterfaceInfoWithAdmin(UpdateInterfaceInfo interfaceInfo) throws ParamsException {
-        TbApiInfo tbApiInfo = new TbApiInfo();
-        tbApiInfo.setApiName(interfaceInfo.getApiName());
-        tbApiInfo.setApiDesc(interfaceInfo.getApiDesc());
-        tbApiInfo.setApiUrl(interfaceInfo.getApiUrl());
-        tbApiInfo.setApiMethod(interfaceInfo.getApiMethod());
-        tbApiInfo.setApiParam(interfaceInfo.getApiParam());
-        tbApiInfo.setApiStatus(interfaceInfo.getApiStatus());
-        tbApiInfo.setApiReqExample(interfaceInfo.getApiReqExample());
-        tbApiInfo.setApiResExample(interfaceInfo.getApiResExample());
+        if (ObjectUtil.isAllEmpty(
+                interfaceInfo.getApiName(),
+                interfaceInfo.getApiDesc(),
+                interfaceInfo.getApiUrl(),
+                interfaceInfo.getApiMethod(),
+                interfaceInfo.getApiParam(),
+                interfaceInfo.getApiStatus(),
+                interfaceInfo.getApiReqExample(),
+                interfaceInfo.getApiResExample()
+        )) {
+            throw new ParamsException("参数不能为空");
+        }
+
+        TbApiInfo tbApiInfo = BeanUtil.copyProperties(interfaceInfo, TbApiInfo.class);
 
         int isUpdate = tbApiInfoMapper.updateById(tbApiInfo);
         if (isUpdate == 1) {

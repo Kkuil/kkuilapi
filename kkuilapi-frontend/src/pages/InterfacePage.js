@@ -29,7 +29,7 @@ import Scrollbar from '../components/scrollbar';
 // sections
 import { InterfaceListHead, InterfaceListToolbar } from '../sections/@dashboard/interface';
 // mock
-import { addInterface, listInterface } from '../api/interface';
+import { addInterface, deleteInterface, listInterface, updateInterface } from '../api/interface';
 
 // ----------------------------------------------------------------------
 
@@ -99,7 +99,10 @@ const StyledAddInterfaceForm = styled.form`
 `;
 
 export default function InterfacePage() {
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState({
+    e: null,
+    id: null,
+  });
 
   const [page, setPage] = useState(0);
 
@@ -113,12 +116,18 @@ export default function InterfacePage() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
+  const handleOpenMenu = (event, id) => {
+    setOpen({
+      e: event.currentTarget,
+      id,
+    });
   };
 
   const handleCloseMenu = () => {
-    setOpen(null);
+    setOpen({
+      e: null,
+      id: null,
+    });
   };
 
   const handleRequestSort = (event, property) => {
@@ -166,34 +175,49 @@ export default function InterfacePage() {
   };
 
   // region
+  const [listParam, setListParam] = useState({
+    current: 1,
+    pageSize: 10,
+    apiName: '',
+  });
+
   const [interfaces, setInterfaces] = useState([]);
 
   const [isShowAddInterfaceDrawer, setIsShowAddInterfaceDrawer] = useState(false);
 
-  const [interfaceInfoWithAddOperation, setInterfaceInfoWithAddOperation] = useState({});
+  // 增加接口信息数据
+  const [interfaceInfoWithAddOperation, setInterfaceInfoWithAddOperation] = useState({
+    apiMethod: 'GET',
+    apiPath: 1,
+  });
+
+  // 修改接口信息数据
+  const [interfaceInfoWithUpdateOperation, setInterfaceInfoWithUpdateOperation] = useState({
+    apiMethod: 'GET',
+    apiPath: 1,
+  });
 
   // 初始化接口列表
   useEffect(() => {
-    (async function () {
-      const result = await listInterface({
-        current: 1,
-        pageSize: 10,
-      });
-      if (result.data) {
-        setInterfaces(result.data.list);
-      }
-    })();
+    listInterfaceOperation();
     return () => {};
-  }, []);
+  }, [listParam]);
 
   // 切换新增接口抽屉
   const toggleDrawer = (isShow) => {
     setIsShowAddInterfaceDrawer(isShow);
   };
 
+  // 获取接口列表
+  const listInterfaceOperation = async () => {
+    const result = await listInterface(listParam);
+    if (result.data) {
+      setInterfaces(result.data.list);
+    }
+  };
+
   // 更新新增信息
   const changeInterfaceInfo = (key, value) => {
-    console.log(key, value);
     setInterfaceInfoWithAddOperation({
       ...interfaceInfoWithAddOperation,
       [key]: value,
@@ -206,7 +230,19 @@ export default function InterfacePage() {
     if (result.data) {
       // 清空新增信息
       setInterfaceInfoWithAddOperation({});
+      await listInterface(listParam);
     }
+  };
+
+  // 删除接口
+  const deleteInterfaceOperation = async () => {
+    const result = await deleteInterface(open.id);
+    await listInterface(listParam);
+  };
+
+  // 删除接口
+  const updateInterfaceOperation = async () => {
+    const result = await updateInterface(interfaceInfoWithUpdateOperation);
   };
 
   // endregion
@@ -391,7 +427,7 @@ export default function InterfacePage() {
                         </TableCell>
 
                         <TableCell align="center">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                          <IconButton size="large" color="inherit" onClick={(e) => handleOpenMenu(e, id)}>
                             <Iconify icon={'eva:more-vertical-fill'} />
                           </IconButton>
                         </TableCell>
@@ -445,8 +481,8 @@ export default function InterfacePage() {
       </Container>
 
       <Popover
-        open={Boolean(open)}
-        anchorEl={open}
+        open={Boolean(open.e)}
+        anchorEl={open.e}
         onClose={handleCloseMenu}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -467,7 +503,7 @@ export default function InterfacePage() {
           编辑
         </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }}>
+        <MenuItem sx={{ color: 'error.main' }} onClick={() => deleteInterfaceOperation()}>
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
           删除
         </MenuItem>
