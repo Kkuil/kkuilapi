@@ -1,6 +1,5 @@
 package com.kkuil.kkuilapi.model.vo.interfaceInfo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 
@@ -54,6 +53,10 @@ public class InterfaceInfoListResDataVO {
     /**
      * 响应示例
      */
-    @TableField(value = "api_res_example")
     private String apiResExample;
+
+    /**
+     * 接口调用次数
+     */
+    private String apiCount;
 }

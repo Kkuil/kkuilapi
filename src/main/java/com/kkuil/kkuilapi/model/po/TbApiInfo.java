@@ -87,6 +87,13 @@ public class TbApiInfo implements Serializable {
     private String apiResExample;
 
     /**
+     * 接口调用次数
+     */
+    @TableField(value = "api_count")
+    @SchemaProperty(name = "接口调用次数")
+    private String apiCount;
+
+    /**
      * 接口创建时间
      */
     @TableField(value = "api_create_time")

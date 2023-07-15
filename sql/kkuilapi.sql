@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS `tb_api_info`
     `api_status`      varchar(255)                                                   NOT NULL COMMENT '接口状态',
     `api_req_example` varchar(255)                                                   NOT NULL COMMENT '请求示例',
     `api_res_example` varchar(255)                                                   NOT NULL COMMENT '响应示例',
+    `api_count`      int(11) unsigned DEFAULT 0 COMMENT '接口调用次数',
     `api_create_time` DATETIME DEFAULT CURRENT_TIMESTAMP                             NOT NULL COMMENT '接口创建时间',
     `api_modify_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL COMMENT '接口更新时间',
     PRIMARY KEY (`id`)

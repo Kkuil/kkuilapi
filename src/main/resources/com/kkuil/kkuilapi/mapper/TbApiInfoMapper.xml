@@ -14,6 +14,7 @@
         <result property="apiStatus" column="api_status" jdbcType="VARCHAR"/>
         <result property="apiReqExample" column="api_req_example" jdbcType="VARCHAR"/>
         <result property="apiResExample" column="api_res_example" jdbcType="VARCHAR"/>
+        <result property="apiCount" column="api_count" jdbcType="VARCHAR"/>
         <result property="apiCreateTime" column="api_create_time" jdbcType="TIMESTAMP"/>
         <result property="apiModifyTime" column="api_modify_time" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -22,7 +23,7 @@
         id,api_name,api_desc,
         api_example,api_url,api_method,
         api_param,api_status,api_req_example,
-        api_res_example,api_create_time,api_modify_time
+        api_res_example,api_count,api_create_time,api_modify_time
     </sql>
     <select id="listInterfaceInfoWithLimit"
             resultType="com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataVO">
@@ -33,7 +34,9 @@
         api_method AS apiMethod,
         api_param AS apiParam,
         api_status AS apiStatus,
-        api_req_example AS apiReqExample
+        api_req_example AS apiReqExample,
+        api_res_example AS apiResExample,
+        api_count AS apiCount
         FROM db_kkuil_api.tb_api_info
         <if test="apiName != null">
             WHERE api_name LIKE #{apiName}

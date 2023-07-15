@@ -43,6 +43,7 @@ const TABLE_HEAD = [
   { id: 'apiStatus', label: '接口状态', alignRight: false },
   { id: 'apiReqExample', label: '请求示例', alignRight: false },
   { id: 'apiResExample', label: '响应示例', alignRight: false },
+  { id: 'apiCount', label: '调用次数', alignRight: false },
   { id: 'operation', label: '操作', alignRight: false },
 ];
 
@@ -104,8 +105,6 @@ export default function InterfacePage() {
     id: null,
   });
 
-  const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState('asc');
 
   const [selected, setSelected] = useState([]);
@@ -113,8 +112,6 @@ export default function InterfacePage() {
   const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
-
-  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleOpenMenu = (event, id) => {
     setOpen({
@@ -160,26 +157,15 @@ export default function InterfacePage() {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setPage(0);
-    setRowsPerPage(parseInt(event.target.value, 10));
-  };
-
-  const handleFilterByName = (event) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
-
   // region
   const [listParam, setListParam] = useState({
     current: 1,
-    pageSize: 10,
+    pageSize: 5,
     apiName: '',
   });
+
+  // 数据总数
+  const [total, setTotal] = useState(0);
 
   const [interfaces, setInterfaces] = useState([]);
 
@@ -197,6 +183,32 @@ export default function InterfacePage() {
     apiPath: 1,
   });
 
+  /**
+   *  获取列表页面的接口列表数据
+   * @param event
+   * @param current
+   */
+  const handleChangePage = (event, current) => {
+    console.log(current);
+    setListParam({
+      ...listParam,
+      current: current > 0 ? current + 1 : 1,
+    });
+  };
+
+  /**
+   * 获取列表页面的接口列表数据
+   * @param event
+   */
+  const handleChangeRowsPerPage = (event) => {
+    console.log(event.target.value);
+    setListParam({
+      ...listParam,
+      current: 0,
+      pageSize: parseInt(event.target.value > 0 ? event.target.value : 5, 10),
+    });
+  };
+
   // 初始化接口列表
   useEffect(() => {
     listInterfaceOperation();
@@ -213,6 +225,7 @@ export default function InterfacePage() {
     const result = await listInterface(listParam);
     if (result.data) {
       setInterfaces(result.data.list);
+      setTotal(result.data.total);
     }
   };
 
@@ -246,8 +259,6 @@ export default function InterfacePage() {
   };
 
   // endregion
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - interfaces.length) : 0;
 
   const filteredInterfaces = applySortFilter(interfaces, getComparator(order, orderBy), filterName);
 
@@ -362,11 +373,7 @@ export default function InterfacePage() {
         </Stack>
 
         <Card>
-          <InterfaceListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
+          <InterfaceListToolbar numSelected={selected.length} filterName={filterName} />
           <Scrollbar>
             <TableContainer>
               <Table>
@@ -389,6 +396,7 @@ export default function InterfacePage() {
                       apiStatus,
                       apiReqExample,
                       apiResExample,
+                      apiCount,
                     } = interfaceInfo;
                     const selectedInterface = selected.indexOf(id) !== -1;
 
@@ -425,6 +433,9 @@ export default function InterfacePage() {
                         <TableCell align={'center'} size={'small'}>
                           {apiResExample}
                         </TableCell>
+                        <TableCell align={'center'} size={'small'}>
+                          {apiCount}
+                        </TableCell>
 
                         <TableCell align="center">
                           <IconButton size="large" color="inherit" onClick={(e) => handleOpenMenu(e, id)}>
@@ -434,11 +445,6 @@ export default function InterfacePage() {
                       </TableRow>
                     );
                   })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
                 </TableBody>
 
                 {isNotFound && (
@@ -471,9 +477,9 @@ export default function InterfacePage() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={interfaces.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
+            count={total}
+            rowsPerPage={listParam.pageSize}
+            page={listParam.current - 1}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
