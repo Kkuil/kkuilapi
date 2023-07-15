@@ -8,7 +8,6 @@ import { bgBlur } from '../../../utils/cssStyles';
 import Iconify from '../../../components/iconify';
 //
 import Searchbar from './Searchbar';
-import AccountPopover from './AccountPopover';
 
 // ----------------------------------------------------------------------
 

@@ -60,6 +60,12 @@
             <artifactId>jasypt-spring-boot-starter</artifactId>
             <version>3.0.4</version>
         </dependency>
+        <!-- mybatis-plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.5.2</version>
+        </dependency>
     </dependencies>
 
     <build>

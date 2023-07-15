@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkuil.kkuilapi.mapper.TbApiInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.kkuil.kkuilapi.model.po.TbApiInfo">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <resultUtil property="apiName" column="api_name" jdbcType="VARCHAR"/>
+        <resultUtil property="apiDesc" column="api_desc" jdbcType="VARCHAR"/>
+        <resultUtil property="apiUrl" column="api_url" jdbcType="VARCHAR"/>
+        <resultUtil property="apiMethod" column="api_method" jdbcType="VARCHAR"/>
+        <resultUtil property="apiParam" column="api_param" jdbcType="VARCHAR"/>
+        <resultUtil property="apiStatus" column="api_status" jdbcType="VARCHAR"/>
+        <resultUtil property="apiReqExample" column="api_req_example" jdbcType="VARCHAR"/>
+        <resultUtil property="apiResExample" column="api_res_example" jdbcType="VARCHAR"/>
+        <resultUtil property="apiCreateTime" column="api_create_time" jdbcType="TIMESTAMP"/>
+        <resultUtil property="apiModifyTime" column="api_modify_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,api_name,api_desc,
+        api_example,api_url,api_method,
+        api_param,api_status,api_req_example,
+        api_res_example,api_create_time,api_modify_time
+    </sql>
+    <select id="listInterfaceInfoWithLimit"
+            resultType="com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataVO">
+        SELECT id,
+        api_name AS apiName,
+        api_desc AS apiDesc,
+        api_url AS apiUrl,
+        api_method AS apiMethod,
+        api_param AS apiParam,
+        api_status AS apiStatus,
+        api_req_example AS apiReqExample
+        FROM db_kkuil_api.tb_api_info
+        <if test="apiName != null">
+            WHERE api_name LIKE #{apiName}
+        </if>
+        LIMIT #{skip}, #{pageSize}
+    </select>
+    <select id="listInterfaceInfoWithNotLimit" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM db_kkuil_api.tb_api_info
+        <if test="apiName != null">
+            WHERE api_name LIKE #{apiName}
+        </if>
+    </select>
+</mapper>

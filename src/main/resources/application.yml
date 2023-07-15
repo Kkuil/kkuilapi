@@ -1,8 +1,14 @@
 server:
     port: 3170
-jasypt:
-    encryptor:
-        password: kkuil-api
+    servlet:
+        context-path: /api
+mybatis-plus:
+    configuration:
+        map-underscore-to-camel-case: false
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+mybatis:
+    mapper-locations: classpath:mapper/*.xml
+    type-aliases-package: com.kkuil.api.model.po
 spring:
     datasource:
         url: jdbc:mysql://localhost:3306/db_kkuil_api

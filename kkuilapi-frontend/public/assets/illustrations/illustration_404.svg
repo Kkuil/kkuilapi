@@ -28,13 +28,13 @@
     </linearGradient>
     <filter id="prefix__filter0_d" x="51" y="49" width="394.621" height="277.611" filterUnits="userSpaceOnUse"
       color-interpolation-filters="sRGB">
-      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feFlood flood-opacity="0" resultUtil="BackgroundImageFix" />
       <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
       <feOffset dx="8" dy="8" />
       <feGaussianBlur stdDeviation="6" />
       <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" />
-      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow" />
-      <feBlend in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+      <feBlend in2="BackgroundImageFix" resultUtil="effect1_dropShadow" />
+      <feBlend in="SourceGraphic" in2="effect1_dropShadow" resultUtil="shape" />
     </filter>
   </defs>
 </svg>

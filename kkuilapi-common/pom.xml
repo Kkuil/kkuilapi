@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.kkuil</groupId>
     <artifactId>kkuilapi-common</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>kkuilapi-common</name>
     <description>kkuilapi-common</description>
     <properties>

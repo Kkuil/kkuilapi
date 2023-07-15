@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkuil.kkuilapi.mapper.TbAdminInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.kkuil.kkuilapi.model.po.TbAdminInfo">
+        <id property="id" column="id" jdbcType="OTHER"/>
+        <resultUtil property="account" column="account" jdbcType="CHAR"/>
+        <resultUtil property="password" column="password" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,account,password
+    </sql>
+</mapper>
