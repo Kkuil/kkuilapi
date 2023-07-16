@@ -92,7 +92,6 @@ public class TbAdminInfoServiceImpl extends ServiceImpl<TbAdminInfoMapper, TbAdm
         return ResultUtil.success(adminAuthVO);
     }
 
-
     /**
      * @param id      管理员id
      * @param account 管理员账号

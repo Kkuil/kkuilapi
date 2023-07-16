@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 // @mui
 import { Grid, Container, Stack, Typography } from '@mui/material';
 // components
-import { InvokePostCard, InvokePostsSort, InvokePostsSearch } from '../sections/@dashboard/invoke';
+import { InvokePostCard, InvokePostsSort, InvokePostsSearch } from '../sections/@dashboard/invoke/index';
 // mock
 import POSTS from '../_mock/invoke';
 
