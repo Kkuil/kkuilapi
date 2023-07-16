@@ -2,7 +2,8 @@ package com.kkuil.kkuilapi.mapper;
 
 import com.kkuil.kkuilapi.model.po.TbApiInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataVO;
+import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO;
+import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -21,9 +22,9 @@ public interface TbApiInfoMapper extends BaseMapper<TbApiInfo> {
      * @param pageSize 每页条数
      * @param apiName  接口名称
      * @return 接口列表信息
-     * @Description 获取接口列表信息
+     * @Description 管理员获取接口列表信息
      */
-    List<InterfaceInfoListResDataVO> listInterfaceInfoWithLimit(
+    List<InterfaceInfoListResDataWithAdminVO> listInterfaceInfoWithAdminLimit(
             int skip,
             int pageSize,
             String apiName
@@ -33,11 +34,27 @@ public interface TbApiInfoMapper extends BaseMapper<TbApiInfo> {
     /**
      * @param apiName 接口名称
      * @return 接口列表信息总条数
-     * @Description 获取接口列表信息总条数
+     * @Description 管理员获取接口列表信息总条数
      */
-    Integer listInterfaceInfoWithNotLimit(
+    Integer listInterfaceInfoWithAdminNotLimit(
             String apiName
     );
+
+    /**
+     * @param skip     跳过的条数
+     * @param pageSize 每页条数
+     * @param apiName  接口名称
+     * @return 接口列表信息
+     * @Description 用户获取接口列表信息
+     */
+    List<InterfaceInfoListResDataWithUserVO> listInterfaceInfoWithUserLimit(int skip, Integer pageSize, String apiName);
+
+    /**
+     * @param apiName 接口名称
+     * @return 接口列表信息总条数
+     * @Description 用户获取接口列表信息总条数
+     */
+    int listInterfaceInfoWithUserNotLimit(String apiName);
 }
 
 

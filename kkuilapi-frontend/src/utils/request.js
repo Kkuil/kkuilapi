@@ -9,7 +9,7 @@ const request = axios.create({
 request.interceptors.request.use(
   (config) => {
     const { url } = config;
-    if (url === '/admin/auth') {
+    if (url === '/admin/auth' || url === '/interface') {
       const token = localStorage.getItem(ADMIN_TOKEN_KEY);
       if (token) {
         config.headers[ADMIN_TOKEN_KEY] = localStorage[ADMIN_TOKEN_KEY];

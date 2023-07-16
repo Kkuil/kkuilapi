@@ -3,17 +3,19 @@ package com.kkuil.kkuilapi.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kkuil.kkuilapi.exception.thrower.ParamsException;
-import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataBO;
+import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithAdminBO;
+import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithUserBO;
 import com.kkuil.kkuilapi.model.common.list.ListParams;
 import com.kkuil.kkuilapi.model.common.list.ListRes;
 import com.kkuil.kkuilapi.model.dto.interfaceInfo.AddInterfaceInfo;
 import com.kkuil.kkuilapi.model.dto.interfaceInfo.UpdateInterfaceInfo;
 import com.kkuil.kkuilapi.model.po.TbApiInfo;
-import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataVO;
+import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO;
+import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO;
 import com.kkuil.kkuilapi.service.ITbApiInfoService;
 import com.kkuil.kkuilapi.mapper.TbApiInfoMapper;
 import com.kkuil.kkuilapi.utils.ResultUtil;
+import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,27 +39,51 @@ public class TbApiInfoServiceImpl extends ServiceImpl<TbApiInfoMapper, TbApiInfo
      * @Description 管理员获取接口列表信息
      */
     @Override
-    public ResultUtil<ListRes<InterfaceInfoListResDataVO>> listInterfaceInfoWithAdmin(ListParams<InterfaceInfoListParamsDataBO> listParams) {
+    public ResultUtil<ListRes<InterfaceInfoListResDataWithAdminVO>> listInterfaceInfoWithAdmin(ListParams<InterfaceInfoListParamsDataWithAdminBO> listParams) {
         Integer current = listParams.getCurrent();
         Integer pageSize = listParams.getPageSize();
-        InterfaceInfoListParamsDataBO params = listParams.getParams();
+        InterfaceInfoListParamsDataWithAdminBO params = listParams.getParams();
         // 获取请求列表
-        List<InterfaceInfoListResDataVO> list = tbApiInfoMapper.listInterfaceInfoWithLimit(
+        List<InterfaceInfoListResDataWithAdminVO> list = tbApiInfoMapper.listInterfaceInfoWithAdminLimit(
                 (current - 1) * pageSize,
                 pageSize,
                 params.getApiName()
         );
         // 获取总条数
-        int total = tbApiInfoMapper.listInterfaceInfoWithNotLimit(
+        int total = tbApiInfoMapper.listInterfaceInfoWithAdminNotLimit(
                 params.getApiName()
         );
-        ListRes<InterfaceInfoListResDataVO> interfaceInfoListResDataVOListRes = new ListRes<>(
+        ListRes<InterfaceInfoListResDataWithAdminVO> listInfo = new ListRes<>(
                 current,
                 pageSize,
                 total,
                 list
         );
-        return ResultUtil.success(interfaceInfoListResDataVOListRes);
+        return ResultUtil.success(listInfo);
+    }
+
+    @Override
+    public ResultUtil<ListRes<InterfaceInfoListResDataWithUserVO>> listInterfaceInfoWithUser(ListParams<InterfaceInfoListParamsDataWithUserBO> listParams) {
+        Integer current = listParams.getCurrent();
+        Integer pageSize = listParams.getPageSize();
+        InterfaceInfoListParamsDataWithUserBO params = listParams.getParams();
+        // 获取请求列表
+        List<InterfaceInfoListResDataWithUserVO> list = tbApiInfoMapper.listInterfaceInfoWithUserLimit(
+                (current - 1) * pageSize,
+                pageSize,
+                params.getApiName()
+        );
+        // 获取总条数
+        int total = tbApiInfoMapper.listInterfaceInfoWithUserNotLimit(
+                params.getApiName()
+        );
+        ListRes<InterfaceInfoListResDataWithUserVO> listInfo = new ListRes<>(
+                current,
+                pageSize,
+                total,
+                list
+        );
+        return ResultUtil.success(listInfo);
     }
 
     /**

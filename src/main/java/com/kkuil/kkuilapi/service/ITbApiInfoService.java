@@ -1,15 +1,17 @@
 package com.kkuil.kkuilapi.service;
 
-import com.kkuil.kkuilapi.exception.thrower.ParamsException;
-import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataBO;
+import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithAdminBO;
+import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithUserBO;
 import com.kkuil.kkuilapi.model.common.list.ListParams;
 import com.kkuil.kkuilapi.model.common.list.ListRes;
 import com.kkuil.kkuilapi.model.dto.interfaceInfo.AddInterfaceInfo;
 import com.kkuil.kkuilapi.model.dto.interfaceInfo.UpdateInterfaceInfo;
 import com.kkuil.kkuilapi.model.po.TbApiInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataVO;
+import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO;
+import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO;
 import com.kkuil.kkuilapi.utils.ResultUtil;
+import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
 
 /**
  * @author 小K
@@ -19,12 +21,20 @@ import com.kkuil.kkuilapi.utils.ResultUtil;
 public interface ITbApiInfoService extends IService<TbApiInfo> {
 
     /**
-     * 获取接口列表信息
+     * @Description 管理员获取接口列表信息
      *
      * @param listParams 分页参数和除了current和pageSize之外的参数
      * @return 接口列表信息
      */
-    ResultUtil<ListRes<InterfaceInfoListResDataVO>> listInterfaceInfoWithAdmin(ListParams<InterfaceInfoListParamsDataBO> listParams);
+    ResultUtil<ListRes<InterfaceInfoListResDataWithAdminVO>> listInterfaceInfoWithAdmin(ListParams<InterfaceInfoListParamsDataWithAdminBO> listParams);
+
+    /**
+     * @Description 用户获取接口列表信息
+     *
+     * @param listParams 分页参数和除了current和pageSize之外的参数
+     * @return 接口列表信息
+     */
+    ResultUtil<ListRes<InterfaceInfoListResDataWithUserVO>> listInterfaceInfoWithUser(ListParams<InterfaceInfoListParamsDataWithUserBO> listParams);
 
     /**
      * @param interfaceInfo 接口信息
@@ -53,4 +63,5 @@ public interface ITbApiInfoService extends IService<TbApiInfo> {
      * @Description 获取接口信息
      */
     ResultUtil<TbApiInfo> getInterfaceInfoWithAdmin(int id);
+
 }

@@ -28,19 +28,15 @@ export default function DashboardApiPage() {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={6} sm={6} md={3}>
+          <Grid item xs={6} sm={6} md={4}>
             <AppWidgetSummary title="总接口数" total={714000} icon={'ant-design:android-filled'} />
           </Grid>
 
-          <Grid item xs={6} sm={6} md={3}>
-            <AppWidgetSummary title="总注册用户数" total={1352831} color="info" icon={'ant-design:apple-filled'} />
-          </Grid>
-
-          <Grid item xs={6} sm={6} md={3}>
+          <Grid item xs={6} sm={6} md={4}>
             <AppWidgetSummary title="接口调用次数" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
           </Grid>
 
-          <Grid item xs={6} sm={6} md={3}>
+          <Grid item xs={6} sm={6} md={4}>
             <AppWidgetSummary title="被攻击次数" total={234} color="error" icon={'ant-design:bug-filled'} />
           </Grid>
 

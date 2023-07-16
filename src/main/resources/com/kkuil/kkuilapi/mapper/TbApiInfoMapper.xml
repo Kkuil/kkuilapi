@@ -25,8 +25,8 @@
         api_param,api_status,api_req_example,
         api_res_example,api_count,api_create_time,api_modify_time
     </sql>
-    <select id="listInterfaceInfoWithLimit"
-            resultType="com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataVO">
+
+    <sql id="getInterfaceList">
         SELECT id,
         api_name AS apiName,
         api_desc AS apiDesc,
@@ -42,12 +42,29 @@
             WHERE api_name LIKE #{apiName}
         </if>
         LIMIT #{skip}, #{pageSize}
-    </select>
-    <select id="listInterfaceInfoWithNotLimit" resultType="java.lang.Integer">
+    </sql>
+
+    <sql id="getInterfaceTotal">
         SELECT COUNT(*)
         FROM db_kkuil_api.tb_api_info
         <if test="apiName != null">
             WHERE api_name LIKE #{apiName}
         </if>
+    </sql>
+
+    <select id="listInterfaceInfoWithAdminLimit"
+            resultType="com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO">
+        <include refid="getInterfaceList"></include>
+    </select>
+    <select id="listInterfaceInfoWithAdminNotLimit" resultType="java.lang.Integer">
+        <include refid="getInterfaceTotal"></include>
+    </select>
+
+    <select id="listInterfaceInfoWithUserLimit"
+            resultType="com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO">
+        <include refid="getInterfaceList"></include>
+    </select>
+    <select id="listInterfaceInfoWithUserNotLimit" resultType="java.lang.Integer">
+        <include refid="getInterfaceTotal"></include>
     </select>
 </mapper>

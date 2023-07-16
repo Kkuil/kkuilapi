@@ -1,6 +1,6 @@
-package com.kkuil.kkuilapi.exception.thrower;
+package com.kkuil.kkuilapicommon.exception.thrower;
 
-import com.kkuil.kkuilapi.common.ErrorCode;
+import com.kkuil.kkuilapicommon.common.ErrorCode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

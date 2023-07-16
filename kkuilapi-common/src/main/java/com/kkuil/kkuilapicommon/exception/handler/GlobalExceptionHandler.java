@@ -1,4 +1,4 @@
-package com.kkuil.kkuilapi.exception.handler;
+package com.kkuil.kkuilapicommon.exception.handler;
 
 import com.kkuil.kkuilapicommon.exception.thrower.*;
 import org.springframework.http.HttpStatus;

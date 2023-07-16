@@ -6,10 +6,10 @@ import lombok.Data;
 /**
  * @Author 小K
  * @Date 2023/7/14 15:00
- * @Description 获取接口列表信息所返回的数据
+ * @Description 管理员获取接口列表信息所返回的数据
  */
 @Data
-public class InterfaceInfoListResDataVO {
+public class InterfaceInfoListResDataWithAdminVO {
     /**
      * 接口ID
      */

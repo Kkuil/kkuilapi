@@ -1,7 +1,7 @@
 import request from '../utils/request';
 
 /**
- * 获取接口列表
+ * 管理员获取接口列表
  * @param current 当前页
  * @param pageSize  每页显示数量
  * @param params 查询参数
@@ -17,6 +17,25 @@ export function listInterface({ current, pageSize, params }) {
       ...params,
     },
   });
+}
+
+/**
+ * 用户获取接口列表
+ * @param current 当前页
+ * @param pageSize  每页显示数量
+ * @param params 查询参数
+ * @return {*} 返回接口列表
+ */
+export function listInterfaceWithUser({ current, pageSize, params }) {
+    return request({
+        url: '/interface-user',
+        method: 'GET',
+        params: {
+            current,
+            pageSize,
+            ...params,
+        },
+    });
 }
 
 /**

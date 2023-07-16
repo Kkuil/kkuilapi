@@ -1,11 +1,11 @@
 package com.kkuil.kkuilapi.controller;
 
-import com.kkuil.kkuilapi.exception.thrower.ForbiddenException;
-import com.kkuil.kkuilapi.exception.thrower.ParamsException;
 import com.kkuil.kkuilapi.model.dto.admin.AdminLoginDTO;
 import com.kkuil.kkuilapi.model.vo.admin.AdminAuthVO;
 import com.kkuil.kkuilapi.service.ITbAdminInfoService;
 import com.kkuil.kkuilapi.utils.ResultUtil;
+import com.kkuil.kkuilapicommon.exception.thrower.ForbiddenException;
+import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;

@@ -1,12 +1,12 @@
 package com.kkuil.kkuilapi.service;
 
-import com.kkuil.kkuilapi.exception.thrower.ForbiddenException;
-import com.kkuil.kkuilapi.exception.thrower.ParamsException;
 import com.kkuil.kkuilapi.model.dto.admin.AdminLoginDTO;
 import com.kkuil.kkuilapi.model.po.TbAdminInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kkuil.kkuilapi.model.vo.admin.AdminAuthVO;
 import com.kkuil.kkuilapi.utils.ResultUtil;
+import com.kkuil.kkuilapicommon.exception.thrower.ForbiddenException;
+import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

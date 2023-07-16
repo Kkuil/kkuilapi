@@ -253,7 +253,7 @@ export default function InterfacePage() {
     await listInterface(listParam);
   };
 
-  // 删除接口
+  // 更新接口
   const updateInterfaceOperation = async () => {
     const result = await updateInterface(interfaceInfoWithUpdateOperation);
   };
@@ -504,7 +504,7 @@ export default function InterfacePage() {
           },
         }}
       >
-        <MenuItem>
+        <MenuItem onClick={() => updateInterfaceOperation()}>
           <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
           编辑
         </MenuItem>

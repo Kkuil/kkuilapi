@@ -5,6 +5,7 @@ import com.kkuil.kkuilapi.model.bo.admin.AdminInfoInToken;
 import com.kkuil.kkuilapi.model.po.TbAdminInfo;
 import com.kkuil.kkuilapi.service.ITbAdminInfoService;
 import com.kkuil.kkuilapi.utils.JwtUtil;
+import com.kkuil.kkuilapicommon.exception.thrower.UnAuthorizedException;
 import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,7 +48,7 @@ public class AuthAdminAOP {
         log.info("token-interceptor: {}", tokenInHeader);
         // 1. 验证token是否为空
         if (tokenInHeader == null) {
-            throw new SecurityException("Access denied");
+            throw new UnAuthorizedException("Access denied");
         }
 
         // 2. 验证token的有效性
@@ -56,17 +57,17 @@ public class AuthAdminAOP {
         try {
             payload = JwtUtil.parse(tokenInHeader, ADMIN_TOKEN_SECRET);
         } catch (Exception e) {
-            throw new SecurityException("Access denied");
+            throw new UnAuthorizedException("Access denied");
         }
         if (payload == null) {
-            throw new SecurityException("Access denied");
+            throw new UnAuthorizedException("Access denied");
         }
 
         // 2.2 验证token中的用户是真实用户
         String id = payload.get("id").toString();
         TbAdminInfo adminInfo = adminService.getById(id);
         if (adminInfo == null) {
-            throw new SecurityException("Access denied");
+            throw new UnAuthorizedException("Access denied");
         }
 
         // 3. 刷新token

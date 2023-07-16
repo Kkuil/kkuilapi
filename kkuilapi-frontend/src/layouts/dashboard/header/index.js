@@ -41,7 +41,7 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
-  const info = useSelector((state) => state.info);
+  const info = useSelector((state) => state.admin.info);
   return (
     <StyledRoot>
       <StyledToolbar>
@@ -66,10 +66,12 @@ export default function Header({ onOpenNav }) {
             sm: 1,
           }}
         >
-          {info?.id && (
+          {!info?.id ? (
             <Button variant="contained" href="/login" style={{ marginRight: '10px' }}>
               管理员登录
             </Button>
+          ) : (
+            ''
           )}
         </Stack>
       </StyledToolbar>
