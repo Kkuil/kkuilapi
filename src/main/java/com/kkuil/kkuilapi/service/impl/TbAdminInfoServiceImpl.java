@@ -1,10 +1,28 @@
 package com.kkuil.kkuilapi.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kkuil.kkuilapi.exception.thrower.ForbiddenException;
+import com.kkuil.kkuilapi.exception.thrower.ParamsException;
+import com.kkuil.kkuilapi.model.dto.admin.AdminLoginDTO;
 import com.kkuil.kkuilapi.model.po.TbAdminInfo;
+import com.kkuil.kkuilapi.model.vo.admin.AdminAuthVO;
 import com.kkuil.kkuilapi.service.ITbAdminInfoService;
 import com.kkuil.kkuilapi.mapper.TbAdminInfoMapper;
+import com.kkuil.kkuilapi.utils.JwtUtil;
+import com.kkuil.kkuilapi.utils.ResultUtil;
+import io.jsonwebtoken.Claims;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+
+import static com.kkuil.kkuilapi.constant.AdminConst.ADMIN_TOKEN_KEY;
+import static com.kkuil.kkuilapi.constant.AdminConst.ADMIN_TOKEN_SECRET;
 
 /**
  * @author 小K
@@ -15,6 +33,79 @@ import org.springframework.stereotype.Service;
 public class TbAdminInfoServiceImpl extends ServiceImpl<TbAdminInfoMapper, TbAdminInfo>
         implements ITbAdminInfoService {
 
+    @Resource
+    private TbAdminInfoMapper adminInfoMapper;
+
+    /**
+     * @param adminLoginDTO 管理员登录信息
+     * @param response      响应信息
+     * @return 是否登录成功
+     * @Description 管理员登录
+     */
+    @Override
+    public ResultUtil<Boolean> login(AdminLoginDTO adminLoginDTO, HttpServletResponse response) throws ParamsException {
+        // 判空
+        boolean isNotLegal = ObjectUtil.isAllEmpty(adminLoginDTO.getAccount(), adminLoginDTO.getPassword());
+        if (isNotLegal) {
+            throw new ParamsException("账号或密码不能为空");
+        }
+        QueryWrapper<TbAdminInfo> adminInfoQueryWrapper = new QueryWrapper<TbAdminInfo>()
+                .eq("account", adminLoginDTO.getAccount())
+                .eq("password", adminLoginDTO.getPassword());
+        TbAdminInfo tbAdminInfo = adminInfoMapper.selectOne(adminInfoQueryWrapper);
+        if (tbAdminInfo == null) {
+            throw new ParamsException("账号或密码错误");
+        }
+        // 生成token
+        String token = createToken(tbAdminInfo.getId().toString(), tbAdminInfo.getAccount(), ADMIN_TOKEN_SECRET);
+        response.setHeader(ADMIN_TOKEN_KEY, token);
+        return ResultUtil.success(true);
+    }
+
+    /**
+     * @param request HttpServletRequest
+     * @return Result
+     * @Description 管理员校验
+     */
+    @Override
+    public ResultUtil<AdminAuthVO> auth(HttpServletRequest request) throws ForbiddenException {
+        // 1. 获取管理员id
+        String token = request.getHeader(ADMIN_TOKEN_KEY);
+        // 验证token是否有效
+        Claims payload;
+        try {
+            payload = JwtUtil.parse(token, ADMIN_TOKEN_SECRET);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("无效Token");
+        }
+
+        QueryWrapper<TbAdminInfo> adminInfoQueryWrapper = new QueryWrapper<>();
+        adminInfoQueryWrapper
+                .eq("id", payload.get("id"))
+                .eq("account", payload.get("account"));
+        TbAdminInfo tbAdminInfo = adminInfoMapper.selectOne(adminInfoQueryWrapper);
+        if(tbAdminInfo == null){
+            throw new ForbiddenException("无效Token");
+        }
+        AdminAuthVO adminAuthVO = new AdminAuthVO();
+        BeanUtil.copyProperties(tbAdminInfo, adminAuthVO);
+        return ResultUtil.success(adminAuthVO);
+    }
+
+
+    /**
+     * @param id      管理员id
+     * @param account 管理员账号
+     * @param secret  密钥
+     * @return token
+     * @Description 生成token
+     */
+    public String createToken(String id, String account, String secret) {
+        HashMap<String, Object> adminTokenInfoMap = new HashMap<>();
+        adminTokenInfoMap.put("id", id);
+        adminTokenInfoMap.put("account", account);
+        return JwtUtil.create(adminTokenInfoMap, secret);
+    }
 }
 
 

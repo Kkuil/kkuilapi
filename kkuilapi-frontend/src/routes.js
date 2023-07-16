@@ -11,7 +11,7 @@ import DashboardApiPage from './pages/DashboardApiPage';
 
 // ----------------------------------------------------------------------
 
-export default function Router() {
+function Router() {
   return useRoutes([
     {
       path: '/',
@@ -46,3 +46,5 @@ export default function Router() {
     },
   ]);
 }
+
+export default Router;

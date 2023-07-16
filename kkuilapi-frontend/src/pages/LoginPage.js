@@ -45,7 +45,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title>登录Kkuil-API</title>
+        <title>登录Kkuil-API后台管理</title>
       </Helmet>
 
       <StyledRoot>
@@ -68,7 +68,7 @@ export default function LoginPage() {
 
         <Container maxWidth="sm">
           <StyledContent>
-            <Typography variant="h4" style={{ marginBottom: "20px" }}>
+            <Typography variant="h4" style={{ marginBottom: '20px' }}>
               管理员登录
             </Typography>
 

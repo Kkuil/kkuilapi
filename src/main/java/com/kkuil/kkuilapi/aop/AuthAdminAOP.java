@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.kkuil.kkuilapi.model.bo.admin.AdminInfoInToken;
 import com.kkuil.kkuilapi.model.po.TbAdminInfo;
 import com.kkuil.kkuilapi.service.ITbAdminInfoService;
-import com.kkuil.kkuilapi.utils.TokenUtil;
+import com.kkuil.kkuilapi.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,7 +54,7 @@ public class AuthAdminAOP {
         // 2.1 验证token未过期并是有效的
         Claims payload = null;
         try {
-            payload = TokenUtil.parse(tokenInHeader, ADMIN_TOKEN_SECRET);
+            payload = JwtUtil.parse(tokenInHeader, ADMIN_TOKEN_SECRET);
         } catch (Exception e) {
             throw new SecurityException("Access denied");
         }
@@ -72,7 +72,7 @@ public class AuthAdminAOP {
         // 3. 刷新token
         AdminInfoInToken adminInfoInToken = new AdminInfoInToken();
         adminInfoInToken.setId(id);
-        String token = TokenUtil.create((HashMap<String, Object>) BeanUtil.beanToMap(adminInfoInToken), ADMIN_TOKEN_SECRET);
+        String token = JwtUtil.create((HashMap<String, Object>) BeanUtil.beanToMap(adminInfoInToken), ADMIN_TOKEN_SECRET);
         assert response != null;
         response.setHeader(ADMIN_TOKEN_KEY, token);
         return joinPoint.proceed();

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
@@ -6,6 +7,8 @@ import { styled } from '@mui/material/styles';
 import Header from './header';
 import Nav from './nav';
 import Scrollbar from '../../components/scrollbar';
+import { auth } from '../../api/admin';
+import { setInfo } from '../../store/modules/admin';
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +37,21 @@ const Main = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
+
+  const dispatch = useDispatch();
+
+  // 验证管理员是否登录
+  useEffect(() => {
+    handleAuth().then(() => {});
+    return () => {};
+  }, []);
+
+  const handleAuth = async () => {
+    const result = await auth();
+    if (result.data) {
+      dispatch(setInfo(result.data));
+    }
+  };
 
   return (
     <Scrollbar>

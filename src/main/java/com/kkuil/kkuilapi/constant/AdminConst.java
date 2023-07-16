@@ -9,7 +9,7 @@ public class AdminConst {
     /**
      * 管理员在请求头中的key
      */
-    public static final String ADMIN_TOKEN_KEY = "admin_token";
+    public static final String ADMIN_TOKEN_KEY = "kkuil_admin_token_key";
 
     /**
      * 管理员token的密钥
@@ -20,5 +20,10 @@ public class AdminConst {
      * token过期时间
      */
     public static final long ADMIN_TOKEN_TTL = 1000 * 60 * 60 * 24 * 7;
+
+    /**
+     * 管理员密码盐
+     */
+    public static final String ADMIN_PWD_SALT = "kkuil_admin_pwd_salt";
 
 }

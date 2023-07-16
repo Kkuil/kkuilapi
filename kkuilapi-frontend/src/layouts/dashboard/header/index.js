@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton, Button } from '@mui/material';
@@ -40,6 +41,7 @@ Header.propTypes = {
 };
 
 export default function Header({ onOpenNav }) {
+  const info = useSelector((state) => state.info);
   return (
     <StyledRoot>
       <StyledToolbar>
@@ -64,9 +66,11 @@ export default function Header({ onOpenNav }) {
             sm: 1,
           }}
         >
-          <Button variant="contained" href="/login" style={{ marginRight: '10px' }}>
-            管理员登录
-          </Button>
+          {info?.id && (
+            <Button variant="contained" href="/login" style={{ marginRight: '10px' }}>
+              管理员登录
+            </Button>
+          )}
         </Stack>
       </StyledToolbar>
     </StyledRoot>

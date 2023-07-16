@@ -13,7 +13,7 @@ import static com.kkuil.kkuilapi.constant.AdminConst.ADMIN_TOKEN_TTL;
  * @Description token 工具包
  */
 @Slf4j
-public class TokenUtil {
+public class JwtUtil {
 
 
     /**

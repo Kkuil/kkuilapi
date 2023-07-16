@@ -5,6 +5,7 @@ import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox, Typograph
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/iconify';
+import { login } from '../../../api/admin';
 
 // ----------------------------------------------------------------------
 
@@ -13,19 +14,36 @@ export default function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleClick = () => {
-    navigate('/dashboard', { replace: true });
+  const [loginInfo, setLoginInfo] = useState({
+    account: '',
+    password: '',
+  });
+
+  const handleLogin = async () => {
+    if (loginInfo.account === '' || loginInfo.password === '') {
+      return;
+    }
+    console.log(loginInfo)
+    const result = await login(loginInfo);
+    if (result.data) {
+      navigate('/dashboard', { replace: true });
+    }
   };
 
   return (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="邮箱地址" />
+        <TextField
+          name="account"
+          label="账号"
+          onInput={(e) => setLoginInfo({ ...loginInfo, account: e.target.value })}
+        />
 
         <TextField
           name="password"
           label="密码"
           type={showPassword ? 'text' : 'password'}
+          onInput={(e) => setLoginInfo({ ...loginInfo, password: e.target.value })}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -38,7 +56,14 @@ export default function LoginForm() {
         />
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick} style={{ marginTop: "10px" }}>
+      <LoadingButton
+        fullWidth
+        size="large"
+        type="submit"
+        variant="contained"
+        onClick={handleLogin}
+        style={{ marginTop: '10px' }}
+      >
         登录
       </LoadingButton>
     </>
