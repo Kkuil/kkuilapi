@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 import Header from './header';
 import Nav from './nav';
 import Scrollbar from '../../components/scrollbar';
-import { auth } from '../../api/admin';
+import { auth } from '../../api/common/admin';
 import { setInfo } from '../../store/modules/admin';
 
 // ----------------------------------------------------------------------

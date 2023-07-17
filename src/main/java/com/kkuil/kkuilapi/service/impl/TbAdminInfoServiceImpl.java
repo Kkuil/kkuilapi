@@ -9,10 +9,10 @@ import com.kkuil.kkuilapi.model.po.TbAdminInfo;
 import com.kkuil.kkuilapi.model.vo.admin.AdminAuthVO;
 import com.kkuil.kkuilapi.service.ITbAdminInfoService;
 import com.kkuil.kkuilapi.mapper.TbAdminInfoMapper;
-import com.kkuil.kkuilapi.utils.JwtUtil;
 import com.kkuil.kkuilapi.utils.ResultUtil;
 import com.kkuil.kkuilapicommon.exception.thrower.ForbiddenException;
 import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
+import com.kkuil.kkuilapicommon.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,8 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 
-import static com.kkuil.kkuilapi.constant.AdminConst.ADMIN_TOKEN_KEY;
-import static com.kkuil.kkuilapi.constant.AdminConst.ADMIN_TOKEN_SECRET;
+import static com.kkuil.kkuilapi.constant.AdminConst.*;
 
 /**
  * @author 小K
@@ -103,7 +102,7 @@ public class TbAdminInfoServiceImpl extends ServiceImpl<TbAdminInfoMapper, TbAdm
         HashMap<String, Object> adminTokenInfoMap = new HashMap<>();
         adminTokenInfoMap.put("id", id);
         adminTokenInfoMap.put("account", account);
-        return JwtUtil.create(adminTokenInfoMap, secret);
+        return JwtUtil.create(adminTokenInfoMap, secret, ADMIN_TOKEN_TTL);
     }
 }
 

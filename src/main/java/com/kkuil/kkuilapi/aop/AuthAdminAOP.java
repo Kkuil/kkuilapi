@@ -4,8 +4,8 @@ import cn.hutool.core.bean.BeanUtil;
 import com.kkuil.kkuilapi.model.bo.admin.AdminInfoInToken;
 import com.kkuil.kkuilapi.model.po.TbAdminInfo;
 import com.kkuil.kkuilapi.service.ITbAdminInfoService;
-import com.kkuil.kkuilapi.utils.JwtUtil;
 import com.kkuil.kkuilapicommon.exception.thrower.UnAuthorizedException;
+import com.kkuil.kkuilapicommon.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,8 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.HashMap;
 
-import static com.kkuil.kkuilapi.constant.AdminConst.ADMIN_TOKEN_KEY;
-import static com.kkuil.kkuilapi.constant.AdminConst.ADMIN_TOKEN_SECRET;
+import static com.kkuil.kkuilapi.constant.AdminConst.*;
 
 /**
  * @Author 小K
@@ -73,7 +72,7 @@ public class AuthAdminAOP {
         // 3. 刷新token
         AdminInfoInToken adminInfoInToken = new AdminInfoInToken();
         adminInfoInToken.setId(id);
-        String token = JwtUtil.create((HashMap<String, Object>) BeanUtil.beanToMap(adminInfoInToken), ADMIN_TOKEN_SECRET);
+        String token = JwtUtil.create((HashMap<String, Object>) BeanUtil.beanToMap(adminInfoInToken), ADMIN_TOKEN_SECRET, ADMIN_TOKEN_TTL);
         assert response != null;
         response.setHeader(ADMIN_TOKEN_KEY, token);
         return joinPoint.proceed();

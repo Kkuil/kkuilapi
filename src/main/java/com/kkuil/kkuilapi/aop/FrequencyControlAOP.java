@@ -1,11 +1,11 @@
-package com.kkuil.kkuilapigateway.aop;
+package com.kkuil.kkuilapi.aop;
 
 import cn.hutool.core.util.StrUtil;
+import com.kkuil.kkuilapi.anotation.FrequencyControl;
+import com.kkuil.kkuilapi.exception.thrower.FrequencyControlException;
+import com.kkuil.kkuilapi.utils.RedisUtils;
 import com.kkuil.kkuilapicommon.common.ErrorCode;
-import com.kkuil.kkuilapigateway.anotation.FrequencyControl;
-import com.kkuil.kkuilapigateway.exception.thrower.FrequencyControlException;
-import com.kkuil.kkuilapigateway.utils.RedisUtils;
-import com.kkuil.kkuilapigateway.utils.SpringElUtil;
+import com.kkuil.kkuilapi.utils.SpringElUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,7 +27,7 @@ import java.util.*;
 @Component
 public class FrequencyControlAOP {
 
-    @Around("@annotation(com.kkuil.kkuilapigateway.anotation.FrequencyControl)||@annotation(com.kkuil.kkuilapigateway.anotation.FrequencyControlContainer)")
+    @Around("@annotation(com.kkuil.kkuilapi.anotation.FrequencyControl)||@annotation(com.kkuil.kkuilapi.anotation.FrequencyControlContainer)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         // 获取Method对象
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
@@ -70,7 +70,7 @@ public class FrequencyControlAOP {
             if (Objects.nonNull(count) && count >= frequencyControl.count()) {
                 // 超频
                 log.warn("frequencyControl limit key:{},count:{}", key, count);
-                throw new FrequencyControlException(ErrorCode.FORBIDDEN_ERROR);
+                throw new FrequencyControlException(ErrorCode.FREQUENCY_LIMIT_ERROR);
             }
         }
         try {

@@ -24,6 +24,10 @@ public enum ErrorCode {
      */
     FORBIDDEN_ERROR(403, "禁止访问"),
     /**
+     * 限流异常
+     */
+    FREQUENCY_LIMIT_ERROR(505, "你访问速度太快了，请稍后再试"),
+    /**
      * 服务器内部异常
      */
     SYSTEM_ERROR(500, "服务器内部异常");

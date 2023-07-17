@@ -5,7 +5,7 @@ import { Stack, IconButton, InputAdornment, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/iconify';
-import { login } from '../../../api/admin';
+import { login } from '../../../api/common/admin';
 
 // ----------------------------------------------------------------------
 

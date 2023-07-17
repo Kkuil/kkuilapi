@@ -4,7 +4,7 @@ import { Grid, Container, Stack, Typography, TablePagination } from '@mui/materi
 // components
 import { useEffect, useState } from 'react';
 import { InvokePostCard, InvokePostsSearch } from '../sections/@dashboard/invoke/index';
-import { listInterfaceWithUser } from '../api/interface';
+import { listInterfaceWithUser } from '../api/common/interface';
 
 // ----------------------------------------------------------------------
 

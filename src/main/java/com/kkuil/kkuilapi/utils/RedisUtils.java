@@ -1,4 +1,4 @@
-package com.kkuil.kkuilapigateway.utils;
+package com.kkuil.kkuilapi.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.kkuil.kkuilapicommon.utils.JsonUtils;

@@ -7,7 +7,12 @@ package com.kkuil.kkuilapiinterface.constant.upstream;
  */
 public class UpstreamConst {
     /**
-     * 请求头(流量染色)
+     * 请求头Key(流量染色)
      */
-    public static final String TYPICAL_REQUEST_HEADER = "X-Request-Flag";
+    public static final String TYPICAL_REQUEST_HEADER_KEY = "X-Request-Flag";
+
+    /**
+     * 请求头Value(流量染色)
+     */
+    public static final String TYPICAL_REQUEST_HEADER_VALUE = "0abf1e51-9ccc-4cbc-93b0-d2b9ac6e575e";
 }

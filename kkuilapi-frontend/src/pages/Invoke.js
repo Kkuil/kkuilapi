@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getInterface } from '../api/interface';
+import { getInterface } from '../api/common/interface';
 import Tag from '../components/common/Tag';
 
 const styles = (theme) => ({

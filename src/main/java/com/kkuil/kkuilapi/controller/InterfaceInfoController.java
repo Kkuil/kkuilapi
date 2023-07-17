@@ -1,6 +1,7 @@
 package com.kkuil.kkuilapi.controller;
 
 import com.kkuil.kkuilapi.anotation.AuthAdmin;
+import com.kkuil.kkuilapi.anotation.FrequencyControl;
 import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithAdminBO;
 import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithUserBO;
 import com.kkuil.kkuilapi.model.common.list.ListParams;
@@ -99,6 +100,8 @@ public class InterfaceInfoController {
      */
     @GetMapping("interface-user")
     @Operation(summary = "用户获取接口列表信息")
+    @FrequencyControl(prefixKey = "list:interface:user", time = 10, count = 5, target = FrequencyControl.Target.IP)
+    @FrequencyControl(prefixKey = "list:interface:user", time = 30, count = 10, target = FrequencyControl.Target.IP)
     public ResultUtil<ListRes<InterfaceInfoListResDataWithUserVO>> listInterfaceInfoWithUser(int current, int pageSize, String apiName) {
         InterfaceInfoListParamsDataWithUserBO params = new InterfaceInfoListParamsDataWithUserBO(apiName);
         ListParams<InterfaceInfoListParamsDataWithUserBO> listParams = new ListParams<>(current, pageSize, params);

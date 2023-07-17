@@ -29,7 +29,7 @@ import Scrollbar from '../components/scrollbar';
 // sections
 import { InterfaceListHead, InterfaceListToolbar } from '../sections/@dashboard/interface';
 // mock
-import { addInterface, deleteInterface, listInterface, updateInterface } from '../api/interface';
+import { addInterface, deleteInterface, listInterface, updateInterface } from '../api/common/interface';
 
 // ----------------------------------------------------------------------
 

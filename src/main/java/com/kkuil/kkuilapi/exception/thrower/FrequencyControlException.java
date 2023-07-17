@@ -1,4 +1,4 @@
-package com.kkuil.kkuilapigateway.exception.thrower;
+package com.kkuil.kkuilapi.exception.thrower;
 
 import com.kkuil.kkuilapicommon.common.ErrorCode;
 import lombok.Data;

@@ -1,7 +1,7 @@
 server:
     port: 3172
     servlet:
-        context-path: /api-gateway
+        context-path: /api
 spring:
     datasource:
         url: jdbc:mysql://localhost:3306/db_kkuil_api
@@ -11,17 +11,35 @@ spring:
         # redis
         redis:
             database: 0
+            timeout: 6000ms
             host: localhost
             port: 6379
             password: ENC(88OxONO6Wkz/MXTHFHSDZw3VFXTzCa14gceP3veAD7P0r9hr7Vdpb6Nos925AHn+)
+            jedis:
+                pool:
+                    max-active: -1 #连接池最大连接数（使用负值表示无极限）
+                    max-wait: -1ms #连接池最大阻塞等待时间（使用负值表示没有限制）
+                    max-idle: 10 #连接池最大空闲连接
+                    min-idle: 5 #连接池最小空间连接
     main:
         web-application-type: reactive
     cloud:
         gateway:
             routes:
                 -   id: api-interface
-                    uri: https://127.0.0.1:3171/api-interface
+                    uri: http://127.0.0.1:3171
                     predicates:
-                        - Path=/api-gateway/**
+                        - Path=/api/**
                     filters:
-                        - AddRequestHeader=X-Request-Flag, a69aef98
+                        - AddRequestHeader=X-Request-Flag, 0abf1e51-9ccc-4cbc-93b0-d2b9ac6e575e
+                -   id: limit-flow
+                    uri: http://127.0.0.1:3171
+                    predicates:
+                        - Path=/api/**
+                    filters:
+                        - StripPrefix=1
+                        -   name: RequestRateLimiter #请求数限流，名字不能乱打
+                            args:
+                                key-resolver: "#{@ipKeyResolver}"
+                                redis-rate-limiter.replenishRate: 1 #生成令牌速率-设为1方便测试
+                                redis-rate-limiter.burstCapacity: 1 #令牌桶容量-设置1方便测试
