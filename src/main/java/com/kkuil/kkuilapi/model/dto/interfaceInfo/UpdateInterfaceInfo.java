@@ -10,6 +10,11 @@ import lombok.Data;
 @Data
 public class UpdateInterfaceInfo {
     /**
+     * 接口id
+     */
+    private String id;
+
+    /**
      * 接口名称
      */
     private String apiName;

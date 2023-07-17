@@ -21,18 +21,16 @@ import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
 public interface ITbApiInfoService extends IService<TbApiInfo> {
 
     /**
-     * @Description 管理员获取接口列表信息
-     *
      * @param listParams 分页参数和除了current和pageSize之外的参数
      * @return 接口列表信息
+     * @Description 管理员获取接口列表信息
      */
     ResultUtil<ListRes<InterfaceInfoListResDataWithAdminVO>> listInterfaceInfoWithAdmin(ListParams<InterfaceInfoListParamsDataWithAdminBO> listParams);
 
     /**
-     * @Description 用户获取接口列表信息
-     *
      * @param listParams 分页参数和除了current和pageSize之外的参数
      * @return 接口列表信息
+     * @Description 用户获取接口列表信息
      */
     ResultUtil<ListRes<InterfaceInfoListResDataWithUserVO>> listInterfaceInfoWithUser(ListParams<InterfaceInfoListParamsDataWithUserBO> listParams);
 
@@ -63,5 +61,12 @@ public interface ITbApiInfoService extends IService<TbApiInfo> {
      * @Description 获取接口信息
      */
     ResultUtil<TbApiInfo> getInterfaceInfoWithAdmin(int id);
+
+    /**
+     * @param id 接口ID
+     * @return 是否更新成功
+     * @Description 根据接口名称更新接口调用次数
+     */
+    ResultUtil<Boolean> updateInterfaceCountByName(int id) throws ParamsException;
 
 }

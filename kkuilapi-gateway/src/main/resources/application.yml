@@ -32,14 +32,3 @@ spring:
                         - Path=/api/**
                     filters:
                         - AddRequestHeader=X-Request-Flag, 0abf1e51-9ccc-4cbc-93b0-d2b9ac6e575e
-                -   id: limit-flow
-                    uri: http://127.0.0.1:3171
-                    predicates:
-                        - Path=/api/**
-                    filters:
-                        - StripPrefix=1
-                        -   name: RequestRateLimiter #请求数限流，名字不能乱打
-                            args:
-                                key-resolver: "#{@ipKeyResolver}"
-                                redis-rate-limiter.replenishRate: 1 #生成令牌速率-设为1方便测试
-                                redis-rate-limiter.burstCapacity: 1 #令牌桶容量-设置1方便测试

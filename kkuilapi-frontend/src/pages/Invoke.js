@@ -63,7 +63,7 @@ export default function Invoke() {
     if (result.data) {
       setInterfaceInfo({
         ...result.data,
-        apiParam: JSON.parse(result.data.apiParam) ?? '',
+        apiParam: result.data.apiParam ? JSON.parse(result.data.apiParam) : '',
       });
     }
   };
@@ -91,19 +91,27 @@ export default function Invoke() {
         <h1>请求参数</h1>
         <table>
           <thead>
-            <tr>
-              {PARAMS_THEADER.map((item) => (
-                <td>{item.label}</td>
-              ))}
-            </tr>
+            {interfaceInfo.apiParam ? (
+              <tr>
+                {PARAMS_THEADER.map((item) => (
+                  <td>{item.label}</td>
+                ))}
+              </tr>
+            ) : (
+              ''
+            )}
           </thead>
           <tbody>
-            <tr>
-              <td>{interfaceInfo?.apiParam.type}</td>
-              <td>{interfaceInfo?.apiParam.location}</td>
-              <td>{interfaceInfo?.apiParam.type}</td>
-              <td>{interfaceInfo?.apiParam.desc}</td>
-            </tr>
+            {interfaceInfo.apiParam
+              ? interfaceInfo.apiParam?.map((param) => (
+                  <tr>
+                    <td>{param?.type}</td>
+                    <td>{param?.location}</td>
+                    <td>{param?.type}</td>
+                    <td>{param?.desc}</td>
+                  </tr>
+                ))
+              : '无参数'}
           </tbody>
         </table>
       </div>

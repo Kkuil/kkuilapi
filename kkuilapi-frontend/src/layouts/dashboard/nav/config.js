@@ -17,7 +17,7 @@ const navConfig = [
     icon: icon('ic_cart'),
   },
   {
-    title: '在线调用',
+    title: '全部接口',
     path: '/dashboard/invoke-api',
     icon: icon('ic_blog'),
   }

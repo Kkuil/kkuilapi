@@ -70,13 +70,13 @@ export default function InvokeApiInlinePage() {
   return (
     <>
       <Helmet>
-        <title>在线调用接口</title>
+        <title>全部接口</title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            在线调用接口
+              全部接口
           </Typography>
         </Stack>
 

@@ -2,6 +2,7 @@ package com.kkuil.kkuilapi.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithAdminBO;
 import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithUserBO;
@@ -18,6 +19,7 @@ import com.kkuil.kkuilapi.utils.ResultUtil;
 import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,6 +64,11 @@ public class TbApiInfoServiceImpl extends ServiceImpl<TbApiInfoMapper, TbApiInfo
         return ResultUtil.success(listInfo);
     }
 
+    /**
+     * @param listParams 分页参数和除了current和pageSize之外的参数
+     * @return 接口列表信息
+     * @Description 用户获取接口列表信息
+     */
     @Override
     public ResultUtil<ListRes<InterfaceInfoListResDataWithUserVO>> listInterfaceInfoWithUser(ListParams<InterfaceInfoListParamsDataWithUserBO> listParams) {
         Integer current = listParams.getCurrent();
@@ -141,16 +148,7 @@ public class TbApiInfoServiceImpl extends ServiceImpl<TbApiInfoMapper, TbApiInfo
      */
     @Override
     public ResultUtil<Boolean> updateInterfaceInfoWithAdmin(UpdateInterfaceInfo interfaceInfo) throws ParamsException {
-        if (ObjectUtil.isAllEmpty(
-                interfaceInfo.getApiName(),
-                interfaceInfo.getApiDesc(),
-                interfaceInfo.getApiUrl(),
-                interfaceInfo.getApiMethod(),
-                interfaceInfo.getApiParam(),
-                interfaceInfo.getApiStatus(),
-                interfaceInfo.getApiReqExample(),
-                interfaceInfo.getApiResExample()
-        )) {
+        if (StringUtils.isEmpty(interfaceInfo.getId())) {
             throw new ParamsException("参数不能为空");
         }
 
@@ -173,5 +171,24 @@ public class TbApiInfoServiceImpl extends ServiceImpl<TbApiInfoMapper, TbApiInfo
     public ResultUtil<TbApiInfo> getInterfaceInfoWithAdmin(int id) {
         TbApiInfo tbApiInfo = tbApiInfoMapper.selectById(id);
         return ResultUtil.success(tbApiInfo);
+    }
+
+    /**
+     * @param id 接口id
+     * @return 是否更新成功
+     * @Description 更新接口调用次数
+     */
+    @Override
+    public ResultUtil<Boolean> updateInterfaceCountByName(int id) throws ParamsException {
+        UpdateWrapper<TbApiInfo> apiInfoUpdateWrapper = new UpdateWrapper<>();
+        apiInfoUpdateWrapper
+                .eq("id", id)
+                .setSql("api_count = api_count + 1");
+        boolean isUpdate = this.update(apiInfoUpdateWrapper);
+        if (isUpdate) {
+            return ResultUtil.success(true);
+        } else {
+            throw new ParamsException("更新接口信息失败");
+        }
     }
 }

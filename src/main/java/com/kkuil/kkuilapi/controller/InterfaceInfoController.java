@@ -118,7 +118,23 @@ public class InterfaceInfoController {
     @Parameters({
             @Parameter(name = "id", description = "接口id", in = ParameterIn.PATH),
     })
+    @AuthAdmin
     public ResultUtil<TbApiInfo> getInterfaceInfoWithAdmin(@PathVariable int id) {
         return tbApiInfoService.getInterfaceInfoWithAdmin(id);
+    }
+
+    /**
+     * @param name 接口名称
+     * @return 是否更新成功
+     * @Description 接口调用次数+1
+     */
+    @GetMapping("interface/invoke-count")
+    @Operation(summary = "接口调用次数+1")
+    @Parameters({
+            @Parameter(name = "name", description = "接口名称", in = ParameterIn.QUERY),
+    })
+    @AuthAdmin
+    public ResultUtil<Boolean> invokeCount(int id) throws ParamsException {
+        return tbApiInfoService.updateInterfaceCountByName(id);
     }
 }
