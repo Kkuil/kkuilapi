@@ -19,7 +19,9 @@ spring:
     cloud:
         gateway:
             routes:
-                - id: path_route
-                  uri: http://127.0.0.1:3171/api-interface/image/random
-                  predicates:
-                    - Path=/red,/blue
+                -   id: api-interface
+                    uri: https://127.0.0.1:3171/api-interface
+                    predicates:
+                        - Path=/api-gateway/**
+                    filters:
+                        - AddRequestHeader=X-Request-Flag, a69aef98

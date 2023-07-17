@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import InterfacePage from './pages/InterfacePage';
 import DashboardApiPage from './pages/DashboardApiPage';
+import Invoke from './pages/Invoke';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +27,7 @@ function Router() {
         { path: 'api', element: <DashboardApiPage /> },
         { path: 'interface', element: <InterfacePage /> },
         { path: 'invoke-api', element: <InvokeApiInlinePage /> },
+        { path: 'invoke/:id', element: <Invoke /> },
       ],
     },
     {

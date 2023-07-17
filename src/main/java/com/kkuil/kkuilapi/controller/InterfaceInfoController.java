@@ -52,21 +52,6 @@ public class InterfaceInfoController {
     }
 
     /**
-     * @param current  当前页
-     * @param pageSize 每页条数
-     * @param apiName  接口名称
-     * @return ResultUtil<ListRes < InterfaceInfoListResDataWithAdminVO>>
-     * @Description 获取接口列表信息
-     */
-    @GetMapping("interface-user")
-    @Operation(summary = "用户获取接口列表信息")
-    public ResultUtil<ListRes<InterfaceInfoListResDataWithUserVO>> listInterfaceInfoWithUser(int current, int pageSize, String apiName) {
-        InterfaceInfoListParamsDataWithUserBO params = new InterfaceInfoListParamsDataWithUserBO(apiName);
-        ListParams<InterfaceInfoListParamsDataWithUserBO> listParams = new ListParams<>(current, pageSize, params);
-        return tbApiInfoService.listInterfaceInfoWithUser(listParams);
-    }
-
-    /**
      * @param interfaceInfo 接口信息
      * @return 是否添加成功
      * @Description 添加接口信息
@@ -106,17 +91,31 @@ public class InterfaceInfoController {
     }
 
     /**
+     * @param current  当前页
+     * @param pageSize 每页条数
+     * @param apiName  接口名称
+     * @return ResultUtil<ListRes < InterfaceInfoListResDataWithAdminVO>>
+     * @Description 获取接口列表信息
+     */
+    @GetMapping("interface-user")
+    @Operation(summary = "用户获取接口列表信息")
+    public ResultUtil<ListRes<InterfaceInfoListResDataWithUserVO>> listInterfaceInfoWithUser(int current, int pageSize, String apiName) {
+        InterfaceInfoListParamsDataWithUserBO params = new InterfaceInfoListParamsDataWithUserBO(apiName);
+        ListParams<InterfaceInfoListParamsDataWithUserBO> listParams = new ListParams<>(current, pageSize, params);
+        return tbApiInfoService.listInterfaceInfoWithUser(listParams);
+    }
+
+    /**
      * @param id 接口id
      * @return 接口信息
      * @Description 获取接口信息
      */
     @GetMapping("interface/{id}")
     @Operation(summary = "获取接口信息")
-    @AuthAdmin
     @Parameters({
             @Parameter(name = "id", description = "接口id", in = ParameterIn.PATH),
     })
-    public ResultUtil<TbApiInfo> getInterfaceInfoWithAdmin(@PathVariable int id) throws ParamsException {
+    public ResultUtil<TbApiInfo> getInterfaceInfoWithAdmin(@PathVariable int id) {
         return tbApiInfoService.getInterfaceInfoWithAdmin(id);
     }
 }

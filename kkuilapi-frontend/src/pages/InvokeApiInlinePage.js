@@ -35,7 +35,6 @@ export default function InvokeApiInlinePage() {
    * @param current
    */
   const handleChangePage = (event, current) => {
-    console.log(current);
     setListParam({
       ...listParam,
       current: current > 0 ? current + 1 : 1,
@@ -53,6 +52,14 @@ export default function InvokeApiInlinePage() {
       current: 0,
       pageSize: parseInt(event.target.value > 0 ? event.target.value : 12, 10),
     });
+  };
+
+  const onInput = (value) => {
+    setListParam({
+      ...listParam,
+      apiName: value,
+    });
+    listInterfaceOperation();
   };
 
   // 初始化接口列表
@@ -74,7 +81,7 @@ export default function InvokeApiInlinePage() {
         </Stack>
 
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-          <InvokePostsSearch posts={interfaces} />
+          <InvokePostsSearch posts={interfaces} onInput={onInput} />
         </Stack>
 
         <Grid container spacing={3}>

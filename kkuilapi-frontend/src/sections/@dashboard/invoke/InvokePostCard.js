@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
 // utils
-import { fDate } from '../../../utils/formatTime';
+import { useNavigate } from 'react-router-dom';
 import { fShortenNumber } from '../../../utils/formatNumber';
 
 // ----------------------------------------------------------------------
@@ -61,10 +61,12 @@ InvokePostCard.propTypes = {
 };
 
 export default function InvokePostCard({ interfaceInfo, index }) {
-  const { apiName, apiDesc, apiCount, apiUrl } = interfaceInfo;
+  const { id, apiName, apiDesc, apiCount, apiUrl } = interfaceInfo;
+
+  const navigate = useNavigate();
 
   return (
-    <StyledGrid item xs={12} sm={6} md={3} style={{ cursor: 'pointer' }}>
+    <StyledGrid item xs={12} sm={6} md={3} style={{ cursor: 'pointer' }} onClick={() => navigate({ pathname: `/dashboard/invoke/${id}` })}>
       <Card sx={{ position: 'relative' }}>
         <CardContent>
           <StyledTitle color="inherit" variant="subtitle2" underline="hover">

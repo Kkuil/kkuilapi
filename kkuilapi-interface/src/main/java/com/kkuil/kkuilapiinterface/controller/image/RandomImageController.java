@@ -19,6 +19,13 @@ public class RandomImageController {
     @Resource
     private RandomImageService randomImageService;
 
-
+    /**
+     * @Description 生成随机图片
+     * @param type 图片类型
+     */
+    @GetMapping("/random")
+    public String getRandomImage(@RequestParam String type){
+        return "123";
+    }
 
 }

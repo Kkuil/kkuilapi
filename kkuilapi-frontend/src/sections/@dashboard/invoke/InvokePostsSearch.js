@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+import _ from "lodash"
 // @mui
 import { styled } from '@mui/material/styles';
 import { Autocomplete, InputAdornment, Popper, TextField } from '@mui/material';
@@ -18,7 +18,7 @@ InvokePostsSearch.propTypes = {
   posts: PropTypes.array.isRequired,
 };
 
-export default function InvokePostsSearch({ posts }) {
+export default function InvokePostsSearch({ posts, onInput }) {
   return (
     <Autocomplete
       sx={{ width: 280 }}
@@ -26,12 +26,13 @@ export default function InvokePostsSearch({ posts }) {
       popupIcon={null}
       PopperComponent={StyledPopper}
       options={posts}
-      getOptionLabel={(post) => post.title}
+      getOptionLabel={(post) => post.apiName}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       renderInput={(params) => (
         <TextField
           {...params}
           placeholder="搜索接口"
+          onInput={_.debounce((e) => onInput(e.target.value), 1000)}
           InputProps={{
             ...params.InputProps,
             startAdornment: (
