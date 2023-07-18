@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.kkuil.kkuilapiinterface.constant.random.ImageConst.IMAGE_URL_PREFIX;
+
 /**
  * @Author 小K
  * @Date 2023/07/16 16:30
@@ -14,11 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 public class RandomImageController {
-
-    /**
-     * 随机图片前缀
-     */
-    public static final String IMAGE_URL_PREFIX = "https://kkuil-api.oss-cn-beijing.aliyuncs.com/resources/images/spider-man/spiderman-";
 
     /**
      * @Description 生成随机图片

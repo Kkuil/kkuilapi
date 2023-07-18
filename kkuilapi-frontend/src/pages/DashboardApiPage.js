@@ -1,20 +1,63 @@
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
+import moment from 'moment';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 // sections
-import {
-  AppNewsUpdate,
-  AppCurrentVisits,
-  AppWebsiteVisits,
-  AppWidgetSummary,
-} from '../sections/@dashboard/api';
+import { AppNewsUpdate, AppCurrentVisits, AppWebsiteVisits, AppWidgetSummary } from '../sections/@dashboard/api';
+import { getInterfaceInvokeTotal, getInterfaceTotal } from '../api/common/interface';
 
 // ----------------------------------------------------------------------
 
+const AFTER_DAY = 7;
+
 export default function DashboardApiPage() {
   const theme = useTheme();
+  const [interfaceTotal, setInterfaceTotal] = useState(0);
+  const [interfaceInvokeTotal, setInvokeInterfaceTotal] = useState(0);
+
+  const [afterDate, setAfterDate] = useState([]);
+
+  useEffect(() => {
+    // 初始化日期信息
+    initAfterDate();
+    // 获取接口总数
+    handlerGetInterfaceTotal();
+    // 获取接口调用总数
+    handlerGetInterfaceInvokeTotal();
+    return () => {};
+  }, []);
+
+  // 初始化日期信息
+  const initAfterDate = () => {
+    for (let i = 0; i < AFTER_DAY; i += 1) {
+      setAfterDate([
+        ...afterDate,
+        moment()
+          .add(i, 'days')
+          .format('YYYY/MM/DD'),
+      ]);
+    }
+    console.log(afterDate);
+  };
+
+  // 获取接口总数
+  const handlerGetInterfaceTotal = async () => {
+    const result = await getInterfaceTotal();
+    if (result.data) {
+      setInterfaceTotal(result.data);
+    }
+  };
+
+  // 获取接口总调用次数
+  const handlerGetInterfaceInvokeTotal = async () => {
+    const result = await getInterfaceInvokeTotal();
+    if (result.data) {
+      setInvokeInterfaceTotal(result.data);
+    }
+  };
 
   return (
     <>
@@ -29,11 +72,16 @@ export default function DashboardApiPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={6} sm={6} md={4}>
-            <AppWidgetSummary title="总接口数" total={714000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="总接口数" total={interfaceTotal} icon={'ant-design:android-filled'} />
           </Grid>
 
           <Grid item xs={6} sm={6} md={4}>
-            <AppWidgetSummary title="接口调用次数" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            <AppWidgetSummary
+              title="接口调用次数"
+              total={interfaceInvokeTotal}
+              color="warning"
+              icon={'ant-design:windows-filled'}
+            />
           </Grid>
 
           <Grid item xs={6} sm={6} md={4}>
@@ -44,26 +92,14 @@ export default function DashboardApiPage() {
             <AppWebsiteVisits
               title="日均调用次数"
               subheader="比昨日上升43%"
-              chartLabels={[
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
-              ]}
+              chartLabels={afterDate ?? []}
               chartData={[
                 {
-                  name: 'Team B',
+                  name: '调用次数',
                   type: 'area',
                   fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                }
+                  data: [44, 21, 45, 65, 94, 75, 79],
+                },
               ]}
             />
           </Grid>

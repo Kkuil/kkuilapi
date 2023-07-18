@@ -4,15 +4,16 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kkuil.kkuilapi.constant.AdminConst;
+import com.kkuil.kkuilapi.mapper.TbAdminInfoMapper;
 import com.kkuil.kkuilapi.model.dto.admin.AdminLoginDTO;
 import com.kkuil.kkuilapi.model.po.TbAdminInfo;
 import com.kkuil.kkuilapi.model.vo.admin.AdminAuthVO;
 import com.kkuil.kkuilapi.service.ITbAdminInfoService;
-import com.kkuil.kkuilapi.mapper.TbAdminInfoMapper;
-import com.kkuil.kkuilapi.utils.ResultUtil;
 import com.kkuil.kkuilapicommon.exception.thrower.ForbiddenException;
 import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
 import com.kkuil.kkuilapicommon.utils.JwtUtil;
+import com.kkuil.kkuilapicommon.utils.ResultUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,8 +21,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-
-import static com.kkuil.kkuilapi.constant.AdminConst.*;
 
 /**
  * @author 小K
@@ -56,8 +55,8 @@ public class TbAdminInfoServiceImpl extends ServiceImpl<TbAdminInfoMapper, TbAdm
             throw new ParamsException("账号或密码错误");
         }
         // 生成token
-        String token = createToken(tbAdminInfo.getId().toString(), tbAdminInfo.getAccount(), ADMIN_TOKEN_SECRET);
-        response.setHeader(ADMIN_TOKEN_KEY, token);
+        String token = createToken(tbAdminInfo.getId().toString(), tbAdminInfo.getAccount(), AdminConst.ADMIN_TOKEN_SECRET);
+        response.setHeader(AdminConst.ADMIN_TOKEN_KEY, token);
         return ResultUtil.success(true);
     }
 
@@ -69,11 +68,11 @@ public class TbAdminInfoServiceImpl extends ServiceImpl<TbAdminInfoMapper, TbAdm
     @Override
     public ResultUtil<AdminAuthVO> auth(HttpServletRequest request) throws ForbiddenException {
         // 1. 获取管理员id
-        String token = request.getHeader(ADMIN_TOKEN_KEY);
+        String token = request.getHeader(AdminConst.ADMIN_TOKEN_KEY);
         // 验证token是否有效
         Claims payload;
         try {
-            payload = JwtUtil.parse(token, ADMIN_TOKEN_SECRET);
+            payload = JwtUtil.parse(token, AdminConst.ADMIN_TOKEN_SECRET);
         } catch (Exception e) {
             throw new IllegalArgumentException("无效Token");
         }
@@ -102,7 +101,7 @@ public class TbAdminInfoServiceImpl extends ServiceImpl<TbAdminInfoMapper, TbAdm
         HashMap<String, Object> adminTokenInfoMap = new HashMap<>();
         adminTokenInfoMap.put("id", id);
         adminTokenInfoMap.put("account", account);
-        return JwtUtil.create(adminTokenInfoMap, secret, ADMIN_TOKEN_TTL);
+        return JwtUtil.create(adminTokenInfoMap, secret, AdminConst.ADMIN_TOKEN_TTL);
     }
 }
 

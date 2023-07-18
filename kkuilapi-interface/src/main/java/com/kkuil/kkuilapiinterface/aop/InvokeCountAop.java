@@ -5,6 +5,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.apache.http.HttpEntity;
@@ -32,6 +33,18 @@ public class InvokeCountAop {
     public static final CloseableHttpClient HTTP_CLIENT = HttpClients.createDefault();
 
     /**
+     * 接口调用次数+1的接口URL
+     */
+    @Value("${invoke-count.base-url}")
+    private String INVOKE_COUNT_BASE_URL;
+
+    /**
+     * 接口调用次数+1的接口路径
+     */
+    @Value("${invoke-count.location}")
+    private String INVOKE_COUNT_LOCATION;
+
+    /**
      * @param joinPoint ProceedingJoinPoint
      * @return java.lang.Object
      * @Description 接口调用次数统计
@@ -50,7 +63,9 @@ public class InvokeCountAop {
 
     private void invokeInterfaceForCountPlus(int id) {
         try {
-            HttpGet httpGet = new HttpGet("http://127.0.0.1:3170/api/interface/invoke-count" + "?id=" + id);
+            StringBuilder sb = new StringBuilder();
+            sb.append(INVOKE_COUNT_BASE_URL).append(INVOKE_COUNT_LOCATION).append("?id=").append(id);
+            HttpGet httpGet = new HttpGet(sb.toString());
             httpGet.setHeader(ADMIN_TOKEN_KEY, ADMIN_PERMANENT_TOKEN);
             HttpResponse response = HTTP_CLIENT.execute(httpGet);
             HttpEntity entity = response.getEntity();
@@ -58,13 +73,6 @@ public class InvokeCountAop {
             System.out.println("GET Response: " + responseString);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            // 发送GET请求
-            try {
-                HTTP_CLIENT.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

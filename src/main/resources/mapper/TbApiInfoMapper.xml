@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.mapper.TbApiInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.kkuil.kkuilapicommon.model.po.TbApiInfo">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="api_name" column="api_name" jdbcType="VARCHAR"/>
+            <result property="api_desc" column="api_desc" jdbcType="VARCHAR"/>
+            <result property="api_url" column="api_url" jdbcType="VARCHAR"/>
+            <result property="api_method" column="api_method" jdbcType="VARCHAR"/>
+            <result property="api_param" column="api_param" jdbcType="VARCHAR"/>
+            <result property="api_status" column="api_status" jdbcType="VARCHAR"/>
+            <result property="api_req_example" column="api_req_example" jdbcType="VARCHAR"/>
+            <result property="api_res_example" column="api_res_example" jdbcType="VARCHAR"/>
+            <result property="api_create_time" column="api_create_time" jdbcType="TIMESTAMP"/>
+            <result property="api_modify_time" column="api_modify_time" jdbcType="TIMESTAMP"/>
+            <result property="api_count" column="api_count" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,api_name,api_desc,
+        api_url,api_method,api_param,
+        api_status,api_req_example,api_res_example,
+        api_create_time,api_modify_time,api_count
+    </sql>
+</mapper>

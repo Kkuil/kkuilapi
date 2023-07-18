@@ -1,11 +1,11 @@
 package com.kkuil.kkuilapi.aop;
 
 import cn.hutool.core.util.StrUtil;
-import com.kkuil.kkuilapi.anotation.FrequencyControl;
-import com.kkuil.kkuilapi.exception.thrower.FrequencyControlException;
-import com.kkuil.kkuilapi.utils.RedisUtils;
+import com.kkuil.kkuilapicommon.anotation.FrequencyControl;
 import com.kkuil.kkuilapicommon.common.ErrorCode;
-import com.kkuil.kkuilapi.utils.SpringElUtil;
+import com.kkuil.kkuilapicommon.exception.thrower.FrequencyControlException;
+import com.kkuil.kkuilapicommon.utils.RedisUtils;
+import com.kkuil.kkuilapicommon.utils.SpringElUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,7 +27,7 @@ import java.util.*;
 @Component
 public class FrequencyControlAOP {
 
-    @Around("@annotation(com.kkuil.kkuilapi.anotation.FrequencyControl)||@annotation(com.kkuil.kkuilapi.anotation.FrequencyControlContainer)")
+    @Around("@annotation(com.kkuil.kkuilapicommon.anotation.FrequencyControl)||@annotation(com.kkuil.kkuilapicommon.anotation.FrequencyControlContainer)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         // 获取Method对象
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();

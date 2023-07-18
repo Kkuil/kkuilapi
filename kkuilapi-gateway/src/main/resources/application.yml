@@ -1,7 +1,5 @@
 server:
     port: 3172
-    servlet:
-        context-path: /api
 spring:
     datasource:
         url: jdbc:mysql://localhost:3306/db_kkuil_api

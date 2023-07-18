@@ -1,7 +1,7 @@
 package com.kkuil.kkuilapi.mapper;
 
-import com.kkuil.kkuilapi.model.po.TbAdminInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.kkuil.kkuilapi.model.po.TbAdminInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -1,19 +1,19 @@
 package com.kkuil.kkuilapi.controller;
 
 import com.kkuil.kkuilapi.anotation.AuthAdmin;
-import com.kkuil.kkuilapi.anotation.FrequencyControl;
-import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithAdminBO;
-import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithUserBO;
-import com.kkuil.kkuilapi.model.common.list.ListParams;
-import com.kkuil.kkuilapi.model.common.list.ListRes;
-import com.kkuil.kkuilapi.model.dto.interfaceInfo.AddInterfaceInfo;
-import com.kkuil.kkuilapi.model.dto.interfaceInfo.UpdateInterfaceInfo;
-import com.kkuil.kkuilapi.model.po.TbApiInfo;
-import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO;
-import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO;
+import com.kkuil.kkuilapicommon.anotation.FrequencyControl;
+import com.kkuil.kkuilapicommon.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithAdminBO;
+import com.kkuil.kkuilapicommon.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithUserBO;
+import com.kkuil.kkuilapicommon.model.dto.interfaceInfo.AddInterfaceInfo;
+import com.kkuil.kkuilapicommon.model.dto.interfaceInfo.UpdateInterfaceInfo;
+import com.kkuil.kkuilapicommon.model.list.ListParams;
+import com.kkuil.kkuilapicommon.model.list.ListRes;
+import com.kkuil.kkuilapicommon.model.po.TbApiInfo;
+import com.kkuil.kkuilapicommon.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO;
+import com.kkuil.kkuilapicommon.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO;
 import com.kkuil.kkuilapi.service.ITbApiInfoService;
-import com.kkuil.kkuilapi.utils.ResultUtil;
 import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
+import com.kkuil.kkuilapicommon.utils.ResultUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -22,6 +22,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author 小K
@@ -118,20 +120,42 @@ public class InterfaceInfoController {
     @Parameters({
             @Parameter(name = "id", description = "接口id", in = ParameterIn.PATH),
     })
-    @AuthAdmin
     public ResultUtil<TbApiInfo> getInterfaceInfoWithAdmin(@PathVariable int id) {
         return tbApiInfoService.getInterfaceInfoWithAdmin(id);
     }
 
     /**
-     * @param name 接口名称
+     * @return 接口总数
+     * @Author 小K
+     * @Description 获取总接口数
+     */
+    @GetMapping("/interface/total")
+    public ResultUtil<Integer> getInterfaceTotal() {
+        List<TbApiInfo> list = tbApiInfoService.list();
+        return ResultUtil.success(list.size());
+    }
+
+    /**
+     * @return 总调用次数
+     * @Author 小K
+     * @Description 获取总调用次数
+     */
+    @GetMapping("/interface/invoke-total")
+    public ResultUtil<Integer> getInterfaceInvokeTotal() {
+        List<TbApiInfo> list = tbApiInfoService.list();
+        int invokeCount = list.stream().mapToInt(api -> tbApiInfoService.getById(api.getId()).getApiCount()).sum();
+        return ResultUtil.success(invokeCount);
+    }
+
+    /**
+     * @param id 接口id
      * @return 是否更新成功
      * @Description 接口调用次数+1
      */
     @GetMapping("interface/invoke-count")
     @Operation(summary = "接口调用次数+1")
     @Parameters({
-            @Parameter(name = "name", description = "接口名称", in = ParameterIn.QUERY),
+            @Parameter(name = "id", description = "接口id", in = ParameterIn.QUERY),
     })
     @AuthAdmin
     public ResultUtil<Boolean> invokeCount(int id) throws ParamsException {

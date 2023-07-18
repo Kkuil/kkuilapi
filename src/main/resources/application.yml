@@ -32,3 +32,7 @@ knife4j:
     enable: true
     setting:
         language: zh_cn
+com:
+    example:
+        accessKey: 123
+        secretKey: 123

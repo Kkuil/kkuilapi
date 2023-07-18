@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kkuil.kkuilapi.mapper.TbApiInfoMapper">
 
-    <resultMap id="BaseResultMap" type="com.kkuil.kkuilapi.model.po.TbApiInfo">
+    <resultMap id="BaseResultMap" type="com.kkuil.kkuilapicommon.model.po.TbApiInfo">
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="apiName" column="api_name" jdbcType="VARCHAR"/>
         <result property="apiDesc" column="api_desc" jdbcType="VARCHAR"/>
@@ -38,10 +38,6 @@
         api_res_example AS apiResExample,
         api_count AS apiCount
         FROM db_kkuil_api.tb_api_info
-        <if test="apiName != null">
-            WHERE api_name LIKE #{apiName}
-        </if>
-        LIMIT #{skip}, #{pageSize}
     </sql>
 
     <sql id="getInterfaceTotal">
@@ -52,17 +48,30 @@
         </if>
     </sql>
 
+    <!-- admin -->
     <select id="listInterfaceInfoWithAdminLimit"
-            resultType="com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO">
+            resultType="com.kkuil.kkuilapicommon.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO">
         <include refid="getInterfaceList"></include>
+        <if test="apiName != null">
+            WHERE api_name LIKE #{apiName}
+        </if>
+        LIMIT #{skip}, #{pageSize}
     </select>
     <select id="listInterfaceInfoWithAdminNotLimit" resultType="java.lang.Integer">
         <include refid="getInterfaceTotal"></include>
     </select>
 
+    <!-- user -->
     <select id="listInterfaceInfoWithUserLimit"
-            resultType="com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO">
+            resultType="com.kkuil.kkuilapicommon.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO">
         <include refid="getInterfaceList"></include>
+        <where>
+            <if test="apiName != null">
+                WHERE api_name LIKE #{apiName}
+            </if>
+            AND api_status = '1'
+        </where>
+        LIMIT #{skip}, #{pageSize}
     </select>
     <select id="listInterfaceInfoWithUserNotLimit" resultType="java.lang.Integer">
         <include refid="getInterfaceTotal"></include>

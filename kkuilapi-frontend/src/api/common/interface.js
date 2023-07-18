@@ -1,4 +1,4 @@
-import requestCommon from '../../utils/request-common';
+import request from '../../utils/request-common';
 
 /**
  * 管理员获取接口列表
@@ -8,7 +8,7 @@ import requestCommon from '../../utils/request-common';
  * @return {*} 返回接口列表
  */
 export function listInterface({ current, pageSize, params }) {
-  return requestCommon({
+  return request({
     url: '/interface',
     method: 'GET',
     params: {
@@ -27,7 +27,7 @@ export function listInterface({ current, pageSize, params }) {
  * @return {*} 返回接口列表
  */
 export function listInterfaceWithUser({ current, pageSize, params }) {
-    return requestCommon({
+    return request({
         url: '/interface-user',
         method: 'GET',
         params: {
@@ -44,7 +44,7 @@ export function listInterfaceWithUser({ current, pageSize, params }) {
  * @return {*} 是否新增成功
  */
 export function addInterface(data) {
-  return requestCommon({
+  return request({
     url: '/interface',
     method: 'POST',
     data,
@@ -57,7 +57,7 @@ export function addInterface(data) {
  * @return {*} 是否删除成功
  */
 export function deleteInterface(id) {
-  return requestCommon({
+  return request({
     url: `/interface/${id}`,
     method: 'DELETE'
   });
@@ -69,7 +69,7 @@ export function deleteInterface(id) {
  * @return {*} 是否修改成功
  */
 export function updateInterface(data) {
-  return requestCommon({
+  return request({
     url: '/interface',
     method: 'PUT',
     data,
@@ -82,8 +82,30 @@ export function updateInterface(data) {
  * @return {*} 接口数据
  */
 export function getInterface(id) {
-  return requestCommon({
+  return request({
     url: `/interface/${id}`,
     method: 'GET',
   });
+}
+
+/**
+ * @Description 获取接口总数
+ * @return {*}
+ */
+export function getInterfaceTotal() {
+    return request({
+        url: "/interface/total",
+        method: "GET"
+    })
+}
+
+/**
+ * @Description 获取接口次数总数
+ * @return {*}
+ */
+export function getInterfaceInvokeTotal() {
+    return request({
+        url: "/interface/invoke-total",
+        method: "GET"
+    })
 }

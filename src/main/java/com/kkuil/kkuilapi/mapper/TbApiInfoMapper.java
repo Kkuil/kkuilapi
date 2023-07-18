@@ -1,10 +1,10 @@
 package com.kkuil.kkuilapi.mapper;
 
-import com.kkuil.kkuilapi.model.po.TbApiInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO;
-import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO;
+import com.kkuil.kkuilapicommon.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO;
+import com.kkuil.kkuilapicommon.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO;
 import org.apache.ibatis.annotations.Mapper;
+import com.kkuil.kkuilapicommon.model.po.TbApiInfo;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @Author 小K
  * @Description 针对表【tb_api_info(接口信息表)】的数据库操作Mapper
  * @Date 2023-07-14 12:35:43
- * @Entity com.kkuil.kkuilapi.model.po.TbApiInfo
+ * @Entity com.kkuil.kkuilapicommon.model.po.TbApiInfo
  */
 @Mapper
 public interface TbApiInfoMapper extends BaseMapper<TbApiInfo> {

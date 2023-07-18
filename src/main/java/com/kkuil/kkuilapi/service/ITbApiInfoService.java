@@ -1,17 +1,17 @@
 package com.kkuil.kkuilapi.service;
 
-import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithAdminBO;
-import com.kkuil.kkuilapi.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithUserBO;
-import com.kkuil.kkuilapi.model.common.list.ListParams;
-import com.kkuil.kkuilapi.model.common.list.ListRes;
-import com.kkuil.kkuilapi.model.dto.interfaceInfo.AddInterfaceInfo;
-import com.kkuil.kkuilapi.model.dto.interfaceInfo.UpdateInterfaceInfo;
-import com.kkuil.kkuilapi.model.po.TbApiInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO;
-import com.kkuil.kkuilapi.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO;
-import com.kkuil.kkuilapi.utils.ResultUtil;
 import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
+import com.kkuil.kkuilapicommon.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithAdminBO;
+import com.kkuil.kkuilapicommon.model.bo.interfaceInfo.InterfaceInfoListParamsDataWithUserBO;
+import com.kkuil.kkuilapicommon.model.dto.interfaceInfo.AddInterfaceInfo;
+import com.kkuil.kkuilapicommon.model.dto.interfaceInfo.UpdateInterfaceInfo;
+import com.kkuil.kkuilapicommon.model.list.ListParams;
+import com.kkuil.kkuilapicommon.model.list.ListRes;
+import com.kkuil.kkuilapicommon.model.po.TbApiInfo;
+import com.kkuil.kkuilapicommon.model.vo.interfaceInfo.InterfaceInfoListResDataWithAdminVO;
+import com.kkuil.kkuilapicommon.model.vo.interfaceInfo.InterfaceInfoListResDataWithUserVO;
+import com.kkuil.kkuilapicommon.utils.ResultUtil;
 
 /**
  * @author 小K

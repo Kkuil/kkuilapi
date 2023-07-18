@@ -2,7 +2,6 @@ package com.kkuil.kkuilapi;
 
 import com.kkuil.kkuilapi.model.dto.admin.AdminLoginDTO;
 import com.kkuil.kkuilapi.service.ITbAdminInfoService;
-import com.kkuil.kkuilapi.utils.ResultUtil;
 import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;

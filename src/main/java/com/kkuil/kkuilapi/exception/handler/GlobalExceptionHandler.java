@@ -1,6 +1,5 @@
 package com.kkuil.kkuilapi.exception.handler;
 
-import com.kkuil.kkuilapi.exception.thrower.FrequencyControlException;
 import com.kkuil.kkuilapicommon.exception.thrower.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,7 +77,7 @@ public class GlobalExceptionHandler {
     /**
      * @param e Exception
      * @return ResponseEntity
-     * @Description 处理限流异常
+     * @Description 处理非限流异常
      */
     @ExceptionHandler(value = FrequencyControlException.class)
     public ResponseEntity handFrequencyLimitException(Exception e) {

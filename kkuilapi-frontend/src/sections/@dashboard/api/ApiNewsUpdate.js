@@ -1,11 +1,14 @@
+import { useEffect, useState } from 'react';
 // @mui
 import PropTypes from 'prop-types';
 import { Box, Stack, Link, Card, Button, Divider, Typography, CardHeader } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 // utils
 import { fToNow } from '../../../utils/formatTime';
 // components
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
+import { listInterfaceWithUser } from '../../../api/common/interface';
 
 // ----------------------------------------------------------------------
 
@@ -16,14 +19,35 @@ ApiNewsUpdate.propTypes = {
 };
 
 export default function ApiNewsUpdate({ title, subheader, list, ...other }) {
+  const navigate = useNavigate();
+  const [listParam, setListParam] = useState({
+    current: 1,
+    pageSize: 5,
+    apiName: '',
+  });
+  const [interfaces, setInterfaces] = useState([]);
+
+  // 初始化接口列表
+  useEffect(() => {
+    listInterfaceOperation();
+    return () => {};
+  }, [listParam]);
+
+  // 获取接口列表
+  const listInterfaceOperation = async () => {
+    const result = await listInterfaceWithUser(listParam);
+    if (result.data) {
+      setInterfaces(result.data.list);
+    }
+  };
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
 
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-          {list.map((news) => (
-            <NewsItem key={news.id} news={news} />
+          {interfaces.map((interfaceInfo) => (
+            <InterfaceItem key={interfaceInfo.id} interfaceInfo={interfaceInfo} />
           ))}
         </Stack>
       </Scrollbar>
@@ -31,7 +55,12 @@ export default function ApiNewsUpdate({ title, subheader, list, ...other }) {
       <Divider />
 
       <Box sx={{ p: 2, textAlign: 'right' }}>
-        <Button size="small" color="inherit" endIcon={<Iconify icon={'eva:arrow-ios-forward-fill'} />}>
+        <Button
+          size="small"
+          color="inherit"
+          onClick={() => navigate({ pathname: '/dashboard/invoke-api' })}
+          endIcon={<Iconify icon={'eva:arrow-ios-forward-fill'} />}
+        >
           查看全部
         </Button>
       </Box>
@@ -41,35 +70,33 @@ export default function ApiNewsUpdate({ title, subheader, list, ...other }) {
 
 // ----------------------------------------------------------------------
 
-NewsItem.propTypes = {
+InterfaceItem.propTypes = {
   news: PropTypes.shape({
-    description: PropTypes.string,
-    image: PropTypes.string,
-    postedAt: PropTypes.instanceOf(Date),
-    title: PropTypes.string,
+    apiDesc: PropTypes.string,
+    apiName: PropTypes.string,
   }),
 };
 
-function NewsItem({ news }) {
-  const { image, title, description, postedAt } = news;
-
+function InterfaceItem({ interfaceInfo }) {
+  const { id, apiName, apiDesc } = interfaceInfo;
+  const navigate = useNavigate();
   return (
-    <Stack direction="row" alignItems="center" spacing={2}>
-      <Box component="img" alt={title} src={image} sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
-
+    <Stack
+      direction="row"
+      alignItems="center"
+      spacing={2}
+      style={{ cursor: 'pointer' }}
+      onClick={() => navigate({ pathname: `/dashboard/invoke/${id}` })}
+    >
       <Box sx={{ minWidth: 240, flexGrow: 1 }}>
         <Link color="inherit" variant="subtitle2" underline="hover" noWrap>
-          {title}
+          {apiName}
         </Link>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-          {description}
+          {apiDesc}
         </Typography>
       </Box>
-
-      <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
-        {fToNow(postedAt)}
-      </Typography>
     </Stack>
   );
 }
