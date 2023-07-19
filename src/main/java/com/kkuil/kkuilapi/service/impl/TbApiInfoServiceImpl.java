@@ -19,6 +19,7 @@ import com.kkuil.kkuilapicommon.exception.thrower.ParamsException;
 import com.kkuil.kkuilapicommon.utils.ResultUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +34,10 @@ public class TbApiInfoServiceImpl extends ServiceImpl<TbApiInfoMapper, TbApiInfo
 
     @Autowired
     private TbApiInfoMapper tbApiInfoMapper;
+
+    @Value("${gateway.host}")
+    private String GATEWAY_HOST;
+
 
     /**
      * @param listParams 分页参数和除了current和pageSize之外的参数
@@ -58,8 +63,8 @@ public class TbApiInfoServiceImpl extends ServiceImpl<TbApiInfoMapper, TbApiInfo
                 current,
                 pageSize,
                 total,
-                list
-        );
+                list.stream().peek(item -> item.setApiUrl(GATEWAY_HOST + item.getApiUrl())).collect(java.util.stream.Collectors.toList()
+                ));
         return ResultUtil.success(listInfo);
     }
 
@@ -87,8 +92,8 @@ public class TbApiInfoServiceImpl extends ServiceImpl<TbApiInfoMapper, TbApiInfo
                 current,
                 pageSize,
                 total,
-                list
-        );
+                list.stream().peek(item -> item.setApiUrl(GATEWAY_HOST + item.getApiUrl())).collect(java.util.stream.Collectors.toList()
+                ));
         return ResultUtil.success(listInfo);
     }
 
@@ -169,6 +174,7 @@ public class TbApiInfoServiceImpl extends ServiceImpl<TbApiInfoMapper, TbApiInfo
     @Override
     public ResultUtil<TbApiInfo> getInterfaceInfoWithAdmin(int id) {
         TbApiInfo tbApiInfo = tbApiInfoMapper.selectById(id);
+        tbApiInfo.setApiUrl(GATEWAY_HOST + tbApiInfo.getApiUrl());
         return ResultUtil.success(tbApiInfo);
     }
 

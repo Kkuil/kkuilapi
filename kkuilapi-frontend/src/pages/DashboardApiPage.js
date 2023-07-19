@@ -71,21 +71,17 @@ export default function DashboardApiPage() {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={6} sm={6} md={4}>
+          <Grid item xs={6} sm={6} md={6}>
             <AppWidgetSummary title="总接口数" total={interfaceTotal} icon={'ant-design:android-filled'} />
           </Grid>
 
-          <Grid item xs={6} sm={6} md={4}>
+          <Grid item xs={6} sm={6} md={6}>
             <AppWidgetSummary
               title="接口调用次数"
               total={interfaceInvokeTotal}
               color="warning"
               icon={'ant-design:windows-filled'}
             />
-          </Grid>
-
-          <Grid item xs={6} sm={6} md={4}>
-            <AppWidgetSummary title="被攻击次数" total={234} color="error" icon={'ant-design:bug-filled'} />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>

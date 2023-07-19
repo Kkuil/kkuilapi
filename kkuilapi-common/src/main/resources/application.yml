@@ -1,0 +1,9 @@
+
+spring:
+    data:
+        # redis
+        redis:
+            database: 0
+            host: localhost
+            port: 6379
+            password: ENC(88OxONO6Wkz/MXTHFHSDZw3VFXTzCa14gceP3veAD7P0r9hr7Vdpb6Nos925AHn+)

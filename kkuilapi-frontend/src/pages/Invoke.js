@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 import { getInterface } from '../api/common/interface';
 import Tag from '../components/common/Tag';
 
@@ -16,7 +17,13 @@ const styles = (theme) => ({
 
 let id = 0;
 
-const PARAMS_THEADER = [{ label: '参数名' }, { label: '传入位置' }, { label: '类型' }, { label: '参数说明' }];
+const PARAMS_THEADER = [
+  { label: '参数名' },
+  { label: '传入位置' },
+  { label: '类型' },
+  { label: '是否必传' },
+  { label: '参数说明' },
+];
 
 function createData(name, calories, fat, carbs, protein) {
   id += 1;
@@ -30,6 +37,20 @@ const rows = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
+
+const StyledTable = styled('table')(({ theme }) => ({
+  borderCollapse: 'collapse',
+  borderSpacing: 0,
+  width: '100%',
+  overflow: 'hidden',
+  '& td': {
+    fontWeight: theme.typography.fontWeightBold,
+    color: theme.palette.text.secondary,
+    whiteSpace: 'nowrap',
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    padding: theme.spacing(1.5, 3),
+  },
+}));
 
 export default function Invoke() {
   const location = useLocation();
@@ -50,9 +71,9 @@ export default function Invoke() {
 
   useEffect(() => {
     const path = location.pathname.split('/');
-    const pathParams = path[path.length - 1];
-    if (pathParams) {
-      getInterfaceInfo(pathParams);
+    const id = path[path.length - 1];
+    if (id) {
+      getInterfaceInfo(id);
     }
     return () => {};
   }, [location]);
@@ -89,7 +110,7 @@ export default function Invoke() {
       </div>
       <div className="api-param" style={{ padding: '0 0 30px', borderBottom: '1px solid #ccc' }}>
         <h1>请求参数</h1>
-        <table>
+        <StyledTable>
           <thead>
             {interfaceInfo.apiParam ? (
               <tr>
@@ -105,15 +126,16 @@ export default function Invoke() {
             {interfaceInfo.apiParam
               ? interfaceInfo.apiParam?.map((param) => (
                   <tr>
-                    <td>{param?.type}</td>
+                    <td>{param?.name}</td>
                     <td>{param?.location}</td>
                     <td>{param?.type}</td>
+                    <td>{param?.isRequired}</td>
                     <td>{param?.desc}</td>
                   </tr>
                 ))
               : '无参数'}
           </tbody>
-        </table>
+        </StyledTable>
       </div>
       <div className="api-req-example" style={{ padding: '0 0 30px', borderBottom: '1px solid #ccc' }}>
         <h1>请求示例</h1>

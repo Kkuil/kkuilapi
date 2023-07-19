@@ -2,6 +2,7 @@ package com.kkuil.kkuilapiinterface.controller.random;
 
 import com.kkuil.kkuilapicommon.utils.ResultUtil;
 import com.kkuil.kkuilapiinterface.anotation.InvokeCount;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ public class RandomImageController {
      * @Description 生成随机图片
      */
     @GetMapping("/image")
+    @Operation(summary = "生成随机图片")
     @InvokeCount(id = 1)
     public ResultUtil<String> getRandomImage() {
         // 1. 生成随机数（1-18）

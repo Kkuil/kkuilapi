@@ -23,7 +23,6 @@ export default function LoginForm() {
     if (loginInfo.account === '' || loginInfo.password === '') {
       return;
     }
-    console.log(loginInfo)
     const result = await login(loginInfo);
     if (result.data) {
       navigate('/dashboard', { replace: true });

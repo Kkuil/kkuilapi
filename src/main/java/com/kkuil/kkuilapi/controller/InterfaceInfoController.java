@@ -130,6 +130,7 @@ public class InterfaceInfoController {
      * @Description 获取总接口数
      */
     @GetMapping("/interface/total")
+    @Operation(summary = "获取总接口数")
     public ResultUtil<Integer> getInterfaceTotal() {
         List<TbApiInfo> list = tbApiInfoService.list();
         return ResultUtil.success(list.size());
@@ -141,6 +142,7 @@ public class InterfaceInfoController {
      * @Description 获取总调用次数
      */
     @GetMapping("/interface/invoke-total")
+    @Operation(summary = "获取总调用次数")
     public ResultUtil<Integer> getInterfaceInvokeTotal() {
         List<TbApiInfo> list = tbApiInfoService.list();
         int invokeCount = list.stream().mapToInt(api -> tbApiInfoService.getById(api.getId()).getApiCount()).sum();
